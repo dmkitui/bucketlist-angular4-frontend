@@ -1,0 +1,43 @@
+@import "~bootstrap/dist/css/bootstrap.min.css";
+@import "~font-awesome/css/font-awesome.css";
+@import "~sweetalert2/dist/sweetalert2.min.css";
+
+html, body {
+  height: 100%;
+}
+
+.mainbody {
+  margin: 0 auto;
+  -webkit-flex: 1 0 auto;
+  min-height: 300px;
+  width: 90%;
+  padding-top: 30px;
+}
+
+hr {
+  display: block;
+  height: 2px;
+  border: 0;
+  border-top: 2px solid #ccc;
+  margin: 0 auto;
+  padding: 0;
+  width: 90%;
+}
+
+app-footer {
+  margin: 0 auto;
+  width: 90%;
+  bottom: 0;
+  position: absolute;
+  height: 40px;
+  background: lightgreen;
+}
+
+app-title-bar {
+  color: darkgreen;
+}
+.footer-container {
+  width: 90%;
+  height: 50px;
+  margin: 0 auto;
+}

@@ -1,0 +1,28 @@
+.links {
+  border-left-style: double;
+  text-align: left;
+  /*width: 80%;*/
+}
+
+.summary {
+  text-align: center;
+}
+
+.content {
+  width: 60%;
+  margin: 10px auto;
+}
+
+.button-link {
+  vertical-align: middle;
+  display: block;
+  margin: 10px;
+  width: 135px;
+  /*background-color: greenyellow;*/
+  border-color: darkgreen;
+}
+
+.button-link:hover {
+  background-color: darkgreen;
+  color: white !important;
+}

@@ -12,3 +12,4 @@ describe('bucketlist App', () => {
     expect(page.getParagraphText()).toEqual('Welcome to app!');
   });
 });
+

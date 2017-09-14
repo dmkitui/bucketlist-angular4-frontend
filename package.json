@@ -21,7 +21,15 @@
     "@angular/platform-browser": "^4.0.0",
     "@angular/platform-browser-dynamic": "^4.0.0",
     "@angular/router": "^4.0.0",
+    "@types/sweetalert": "^1.1.28",
+    "angular-sweetalert-service": "^2.0.2",
+    "angular2-datagrid": "^1.0.6",
+    "bootstrap": "^4.0.0-alpha.6",
     "core-js": "^2.4.1",
+    "font-awesome": "^4.7.0",
+    "install": "^0.10.1",
+    "jquery": "^3.2.1",
+    "popper.js": "^1.11.1",
     "rxjs": "^5.4.1",
     "zone.js": "^0.8.14"
   },
@@ -44,6 +52,7 @@
     "protractor": "~5.1.2",
     "ts-node": "~3.0.4",
     "tslint": "~5.3.2",
-    "typescript": "~2.3.3"
+    "typescript": "~2.3.3",
+    "webpack-dev-server": "^1.9.0"
   }
 }

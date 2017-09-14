@@ -1,0 +1,235 @@
+@import "~bootstrap/dist/css/bootstrap.min.css";
+@import "~font-awesome/css/font-awesome.css";
+@import "~sweetalert2/dist/sweetalert2.min.css";
+
+.items {
+  text-align: left;
+  min-height: 70px;
+  border-bottom: solid 1px gray;
+  border-radius: 10px;
+  margin-bottom: 15px;
+  padding: 10px;
+  position: relative;
+}
+
+.items:hover {
+  background-color: #f7f9fc;
+}
+.normal_view {
+  height: 70px;
+  transition:height 4.5s; /* Animation time */
+  -webkit-transition:height 0.5s; /* For Safari */
+}
+div .active{
+  background-color: #F1F1F1;
+  color: black;
+}
+
+.item-title {
+  font-family: Papyrus;
+  font-size: 1.5em;
+}
+.item-title-alternate {
+  display: none;
+}
+
+.expanded_view {
+  background-color: azure;
+  height:140px;
+  /*border: solid 1px black;*/
+}
+
+hr {
+  display: block;
+  height: 2px;
+  border: 0;
+  border-top: 2px solid #ccc;
+  margin: 0 auto;
+  padding: 0;
+  /*width: 90%;*/
+}
+
+.mainView {
+  overflow: scroll;
+  height: 720px;
+  width: 85%;
+  margin: 0 auto;
+}
+.mainView:hover {
+  overflow-y: scroll;
+}
+
+.item-count {
+  display: block;
+  color: blue;
+}
+.countNo {
+  color: red;
+}
+
+.noCount {
+  display: block;
+  color: gray;
+}
+
+.count, .noCount {
+  margin-left: 25px;
+}
+
+.sidebar {
+  border: solid 1px green;
+  border-radius: 10px;
+  height: 300px;
+}
+.action-buttons {
+  display: inline-block;
+  float: right;
+}
+.btn {
+  border: solid 1px green;
+  background-color: white;
+  margin-left: 5px;
+}
+.delete:hover {
+  color: white;
+  background-color: red;
+}
+.edit:hover {
+  background-color: blue;
+  color: white;
+}
+
+.list-buttons {
+  bottom: 40%;
+  align-self: center;
+}
+
+.logout-button {
+  margin-top: 10%;
+  background: gray;
+  color: white;
+}
+
+.new-button {
+  margin-top: 20%;
+  background: lightgray;
+  color: black;
+}
+
+.logout-button:hover {
+  background: red;
+}
+
+.new-button:hover {
+  border: solid 2px black;
+  background-color: green;
+  color: white;
+}
+.add-item:hover{
+  background-color: green;
+  color: white;
+}
+.view-selector{
+  background-color: lightgreen;
+}
+.index{
+  margin-right: 15px;
+  font-family: Papyrus;
+  font-size: 1.5em;
+}
+
+.confirmButton {
+  background-color: yellow;
+  color: black
+}
+.detailed_view{
+  min-height: 40px;
+  position: relative;
+}
+.listItem_div {
+  width: 95%;
+  margin: 0 auto;
+  padding: 15px;
+}
+table {
+  width: 90%;
+  margin: 0 auto;
+}
+td:first-child {
+  width: 15px;
+}
+td {
+  padding-left: 10px;
+  text-align: center;
+}
+
+.list_name {
+  width:40%;
+  text-align: left;
+  padding-left: 20px;
+}
+
+input {
+  vertical-align: middle;
+  text-align: center !important;
+}
+th {
+  text-align: center;
+}
+.complete {
+  text-align: center;
+}
+tr:nth-child(even) {
+  background-color: #f7f9fc;
+}
+.sub-title {
+  font-size: 30px;
+  font-family: Papyrus;
+  color: green;
+  margin-bottom: 15px;
+  font-weight: bold;
+}
+.item_status {
+  width: 75px;
+}
+.item_status_done {
+  background-color: lightgreen;
+  color: darkgreen;
+  border:1px solid darkgreen;
+}
+.item_status_not_done {
+  background-color: lightgray;
+  color: black;
+  border: 1px solid red;
+}
+.list_item_rows:hover {
+  background-color: lightblue;
+}
+.overflow-indicator-bottom {
+  display:block;
+  border:none;
+  color:white;
+  height:3px;
+  background:black;
+  background: -webkit-gradient(radial, 50% 50%, 0, 50% 50%, 650, from(green), to(#fff));
+}
+.overflow-indicator-top {
+  display:block;
+  border:none;
+  color:white;
+  height:3px;
+  background:black;
+  background: -webkit-gradient(radial, 50% 50%, 0, 50% 50%, 650, from(green), to(#fff));
+}
+
+.hidden {
+  display: none;
+}
+.scroll-bottom {
+  /*display:block;*/
+  /*border:none;*/
+  /*color:white;*/
+  /*height:2px;*/
+  /*background:black;*/
+  background: -webkit-gradient(radial, 50% 50%, 0, 50% 50%, 650, from(red), to(#fff)) !important;
+}

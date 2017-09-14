@@ -1,0 +1,30 @@
+<form>
+  <div class="main-panel">
+    <h4> {{ title }}</h4>
+    <div class="input-box form-group">
+      <label for="email" class="lab">Email Address</label>
+      <input class="i-box form-control" ngModel name="email" id="email" #email type="email" required>
+      <br>
+      <label for="password" class="lab">Password</label>
+      <input ngModel name="password" id="password" type="password" class="i-box form-control" required>
+      <br>
+      <div class="rem text-center">
+        <input type="checkbox" id="remember-me" checked>
+        <label for="remember-me">Remember Me</label>
+      </div>
+      <div class="text-center sub-btn">
+        <button class="btn-lg" id="submit-btn">Log In</button>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="text-left col-md-7">
+            <button class="btn-link register-link">Register</button>
+          </div>
+          <div class="text-right col-md-5">
+            <button class="btn-link register-link">Forgot Password?</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

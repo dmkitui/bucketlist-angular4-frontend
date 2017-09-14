@@ -1,0 +1,45 @@
+.header-bar {
+  width: 90%;
+  margin: 50px auto;
+}
+
+.new_button_holder {
+  width: 250px;
+  height: 90px;
+  display: inline-block;
+  float: right;
+  vertical-align: middle;
+}
+
+.userDetails {
+  display: inline-block;
+  float: left;
+  vertical-align: middle;
+  width: 250px;
+  height: 100px;
+}
+.title-box {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 auto;
+}
+
+.new-button {
+  margin-top: 5%;
+  background: lightgray;
+  color: black;
+  border: 1px solid green;
+}
+
+.new-button:hover {
+  border: solid 2px black;
+  background-color: green;
+  color: white;
+}
+.counter {
+  font-weight: bolder;
+}
+.summary {
+  color: grey;
+  font-style: oblique;
+}
