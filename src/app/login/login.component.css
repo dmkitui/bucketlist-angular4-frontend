@@ -31,7 +31,7 @@
   color: white;
 }
 
-.sub-btn {
+.submit-btn-container {
   margin: 10px;
 }
 
@@ -49,4 +49,7 @@ h4 {
 
 .form-control{
   display: inline;
+}
+.main-panel {
+  margin-top: 20px;
 }
