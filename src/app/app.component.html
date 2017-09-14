@@ -1,12 +1,9 @@
 <div class="text-center">
   <app-title-bar></app-title-bar>
   <hr/>
-  <div class="mainbody" *ngIf="isLoggedIn;else loggedIn">
-    <app-bucketlist-view></app-bucketlist-view>
+  <div class="mainbody">
+    <router-outlet></router-outlet>
   </div>
-  <ng-template #loggedIn>
-    <app-login></app-login>
-  </ng-template>
 </div>
 <div class="footer-container">
   <footer class="footer">
