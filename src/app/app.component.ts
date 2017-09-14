@@ -12,7 +12,9 @@ export class AppComponent {
   // state = ['logIn', 'logOut', 'register', 'homepage'];
   logIn = true;
   state = 'homepage';
-  constructor(private bucketlist_data: BucketlistsServiceService) {
-
+  constructor(private bucketlists_service: BucketlistsServiceService) {
+  }
+  ngOnInit() {
+    this.isLoggedIn = this.bucketlists_service.loggedIn;
   }
 }
