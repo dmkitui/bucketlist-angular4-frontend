@@ -16,7 +16,7 @@ html, body {
 
 hr {
   display: block;
-  height: 2px;
+  height: 1px;
   border: 0;
   border-top: 2px solid #ccc;
   margin: 0 auto;
@@ -29,8 +29,8 @@ app-footer {
   width: 90%;
   bottom: 0;
   position: absolute;
-  height: 70px;
-  background: lightgreen;
+  height: 80px;
+  background: lightgrey;
 }
 
 app-title-bar {
