@@ -12,6 +12,13 @@ import { RegisterComponent } from './register/register.component';
 import { BucketlistViewComponent } from './bucketlist-view/bucketlist-view.component';
 import { ListViewComponent } from './list-view/list-view.component';
 import { BucketlistsServiceService } from './bucketlists-service.service';
+import {Routes, RouterModule} from '@angular/router';
+
+const routes: Routes = [
+  { path: 'login', component: LoginComponent },
+  { path: 'bucketlistview', component: BucketlistViewComponent },
+ { path: 'home', component: HomepageComponent }
+];
 
 @NgModule({
   declarations: [
@@ -27,7 +34,8 @@ import { BucketlistsServiceService } from './bucketlists-service.service';
     ListViewComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    RouterModule.forRoot(routes, {useHash: true})
   ],
   providers: [
     SweetAlertService,
