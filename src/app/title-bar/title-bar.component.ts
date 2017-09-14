@@ -10,11 +10,13 @@ import swal, {SweetAlertOptions} from 'sweetalert2';
 export class TitleBarComponent implements OnInit {
   title = 'Bucketlist Online Service';
   bucketlists = [];
+  logged_in = false;
   constructor(private bucketlists_service: BucketlistsServiceService) {
   }
 
   ngOnInit() {
     this.bucketlists = this.bucketlists_service.bucketlists;
+    this.logged_in = this.bucketlists_service.loggedIn;
   }
   items_count() {
     let count = 0;

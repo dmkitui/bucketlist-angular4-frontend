@@ -18,9 +18,14 @@
   width: 250px;
   height: 100px;
 }
+
 .title-box {
   display: inline-block;
   vertical-align: middle;
+  margin: 0 auto;
+}
+
+.title-box h2 {
   margin: 0 auto;
 }
 
@@ -42,4 +47,24 @@
 .summary {
   color: grey;
   font-style: oblique;
+}
+
+.user-info {
+  border: 1px solid lightgray;
+  height: 95%;
+  margin-bottom: 5px;
+  display: flex;
+  align-items: center;
+}
+.user-thumbnail img {
+  width:95px;
+  height: auto;
+  margin: 5px;
+  float: left;
+}
+.user-thumbnail {
+  vertical-align: middle;
+}
+.details {
+  margin: 0 auto;
 }

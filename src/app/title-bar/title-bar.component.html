@@ -1,9 +1,24 @@
 <div class="header-bar">
-  <div class="userDetails">Logged in?</div>
-  <div class="title-box">
-    <h2>{{ title }}</h2>
+  <div class="userDetails" *ngIf="logged_in">
+    <div class="user-info">
+      <a class="user-thumbnail">
+        <img src="../../assets/images/user-placeholder.png">
+      </a>
+      <div class="details">
+        <span id="name">Name</span>
+        <br>
+        <span id="etc">ETC</span>
+        <br>
+        <span>
+          <button class="logout btn-link">Log Out</button>
+        </span>
+      </div>
+    </div>
   </div>
-  <div class="new_button_holder">
+  <div class="title-box">
+    <h2 class="text-center">{{ title }}</h2>
+  </div>
+  <div class="new_button_holder" *ngIf="logged_in">
     <div class="list-buttons">
       <button class="btn btn-lg new-button" (click)="newBucketlist()">New Bucketlist</button>
     </div>
