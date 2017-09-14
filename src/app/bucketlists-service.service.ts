@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
 export class BucketlistsServiceService {
 
   constructor() { }
-    bucketlists = [
+  bucketlists = [
     {'name': 'travel the world', 'id': 1, 'items': []},
     {'name': 'Learn Programming', 'id': 2, 'items': [{'name': 'Java', 'done': false}, {'name': 'Python', 'done': true}]},
     {'name': 'Dominate the world', 'id': 3, 'items': []},
@@ -15,4 +15,5 @@ export class BucketlistsServiceService {
     },
     {'name': 'Win a marathon', 'id': 5, 'items': []}
   ];
+  loggedIn = false;
 }
