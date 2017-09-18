@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
 
 @Component({
@@ -11,14 +10,23 @@ export class LoginComponent implements OnInit {
   title = 'Login To Access Service';
   user_email = '';
   password = '';
+  invalid_credential = false;
   constructor(private router: Router) { }
 
   ngOnInit() {
   }
   logIn(email, pwd) {
     console.log(email, pwd);
-    if (this.user_email === 'your value' && this.password === 'your value') {
-      this.router.navigate(['/show_alunos']);
+    if (this.user_email === 'dmkitui@gmail.com' && this.password === '23566010') {
+      this.router.navigate(['/bucketlistview']);
+    } else {
+      this.invalid_credential = true;
+    }
+  }
+  remove_error() {
+    if (this.invalid_credential) {
+      this.invalid_credential = false;
+      this.password = '';
     }
   }
 
