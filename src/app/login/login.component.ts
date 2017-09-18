@@ -25,8 +25,7 @@ export class LoginComponent implements OnInit {
   }
   remove_error() {
     if (this.invalid_credential) {
-      this.invalid_credential = false;
-      this.password = '';
+      this.invalid_credential = false
     }
   }
 
