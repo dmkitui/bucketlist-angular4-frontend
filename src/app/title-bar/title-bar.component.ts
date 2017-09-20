@@ -12,6 +12,7 @@ export class TitleBarComponent implements OnInit {
   title = 'Bucketlist Online Service';
   bucketlists = [];
   logged_in: any;
+  user = {};
   _subscription: any;
   constructor(private bucketlists_service: BucketlistsServiceService) {
     this.logged_in = false;
@@ -21,10 +22,14 @@ export class TitleBarComponent implements OnInit {
   }
   ngOnInit() {
     this.bucketlists = this.bucketlists_service.bucketlists;
+    this.user = this.bucketlists_service.user_info;
   }
   ngOnDestroy() {
    // prevent memory leak when component destroyed
     this._subscription.unsubscribe();
+  }
+  user_info (user) {
+    return user.email;
   }
   items_count() {
     let count = 0;
