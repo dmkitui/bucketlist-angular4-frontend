@@ -15,6 +15,5 @@ export class AppComponent {
   constructor(private bucketlists_service: BucketlistsServiceService) {
   }
   ngOnInit() {
-    this.isLoggedIn = this.bucketlists_service.loggedIn;
   }
 }

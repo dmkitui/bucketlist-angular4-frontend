@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { BucketlistsServiceService } from '../bucketlists-service.service';
 import swal, {SweetAlertOptions} from 'sweetalert2';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-title-bar',
@@ -10,13 +11,20 @@ import swal, {SweetAlertOptions} from 'sweetalert2';
 export class TitleBarComponent implements OnInit {
   title = 'Bucketlist Online Service';
   bucketlists = [];
-  logged_in = false;
+  logged_in: any;
+  _subscription: any;
   constructor(private bucketlists_service: BucketlistsServiceService) {
+    this.logged_in = false;
+    this._subscription = this.bucketlists_service.logged_in_status.subscribe((value) => {
+      this.logged_in = value;
+    });
   }
-
   ngOnInit() {
     this.bucketlists = this.bucketlists_service.bucketlists;
-    this.logged_in = this.bucketlists_service.loggedIn;
+  }
+  ngOnDestroy() {
+   // prevent memory leak when component destroyed
+    this._subscription.unsubscribe();
   }
   items_count() {
     let count = 0;

@@ -1,6 +1,7 @@
 import {Component, Directive, OnInit} from '@angular/core';
 import swal, {SweetAlertOptions} from 'sweetalert2';
 import { BucketlistsServiceService } from '../bucketlists-service.service';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-bucketlist-view',

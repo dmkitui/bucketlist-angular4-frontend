@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { BucketlistsServiceService } from '../bucketlists-service.service';
 
 @Component({
   selector: 'app-login',
@@ -11,13 +12,13 @@ export class LoginComponent implements OnInit {
   user_email = '';
   password = '';
   invalid_credential = false;
-  constructor(private router: Router) { }
+  constructor(private router: Router, private bucketlists_service: BucketlistsServiceService) { }
 
   ngOnInit() {
   }
   logIn(email, pwd) {
     console.log(email, pwd);
-    if (this.user_email === 'dmkitui@gmail.com' && this.password === '23566010') {
+    if (this.bucketlists_service.login(email, pwd)) {
       this.router.navigate(['/bucketlistview']);
     } else {
       this.invalid_credential = true;
