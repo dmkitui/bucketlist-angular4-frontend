@@ -18,7 +18,8 @@ import { FormsModule } from '@angular/forms' ;
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'bucketlistview', component: BucketlistViewComponent },
-  { path: 'home', component: HomepageComponent }
+  { path: 'home', component: HomepageComponent },
+  { path: '**', redirectTo: 'home'}
 ];
 
 @NgModule({
