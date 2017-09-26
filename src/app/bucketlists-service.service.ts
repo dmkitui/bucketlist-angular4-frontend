@@ -21,16 +21,18 @@ export class BucketlistsServiceService {
     'email': 'dmkitui@gmail.com',
     'password': '23566010'
   };
-  change() {
-    this.status = !status;
-    this.logged_in_status.next(this.status);
+  change(loggedIn) {
+    if (loggedIn) {
+      this.status = !status;
+      this.logged_in_status.next(this.status);
+    }
   }
   login (email, password) {
     if (email === this.user_info.email && password === this.user_info.password) {
-      this.change();
+      this.change(true);
       return true;
     } else {
-      this.change();
+      this.change(false);
       return false;
     }
   }
