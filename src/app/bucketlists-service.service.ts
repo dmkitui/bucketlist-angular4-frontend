@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
 
 @Injectable()
 export class BucketlistsServiceService {
-
-  constructor() { }
+  status: any;
+  logged_in_status: Subject<boolean> = new Subject<boolean>();
+  constructor() {}
   bucketlists = [
     {'name': 'travel the world', 'id': 1, 'items': []},
     {'name': 'Learn Programming', 'id': 2, 'items': [{'name': 'Java', 'done': false}, {'name': 'Python', 'done': true}]},
@@ -15,5 +17,30 @@ export class BucketlistsServiceService {
     },
     {'name': 'Win a marathon', 'id': 5, 'items': []}
   ];
-  loggedIn = false;
+  user_info = {
+    'email': 'dmkitui@gmail.com',
+    'password': '23566010'
+  };
+  change(loggedIn) {
+    if (loggedIn) {
+      this.status = true;
+      this.logged_in_status.next(this.status);
+    } else {
+      this.status = false;
+      this.logged_in_status.next(this.status);
+    }
+  }
+  login (email, password) {
+    if (email === this.user_info.email && password === this.user_info.password) {
+      this.change(true);
+      return true;
+    } else {
+      this.change(false);
+      return false;
+    }
+  }
+  logout() {
+    this.change(false);
+    this.logged_in_status.next(this.status);
+  }
 }

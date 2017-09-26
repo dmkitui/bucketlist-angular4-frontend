@@ -5,12 +5,12 @@
         <img src="../../assets/images/user-placeholder.png">
       </a>
       <div class="details">
-        <span id="name">Name</span>
+        <span id="name"><a href="">{{ user_info(user) }}</a></span>
         <br>
         <span id="etc">ETC</span>
         <br>
         <span>
-          <button class="logout btn-link">Log Out</button>
+          <button class="logout btn-link" (click)="logout()">Log Out</button>
         </span>
       </div>
     </div>

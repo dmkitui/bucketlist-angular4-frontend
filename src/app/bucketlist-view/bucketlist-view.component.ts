@@ -1,6 +1,7 @@
 import {Component, Directive, OnInit} from '@angular/core';
 import swal, {SweetAlertOptions} from 'sweetalert2';
 import { BucketlistsServiceService } from '../bucketlists-service.service';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-bucketlist-view',
@@ -18,7 +19,6 @@ export class BucketlistViewComponent implements OnInit {
   scrolled_top = true;
   // bucketlists = this.BucketlistsServiceService.bucketlists;
   item_status (state) {
-    console.log(state);
     if (state === true) {
       return 'DONE';
     } else {
@@ -37,7 +37,6 @@ export class BucketlistViewComponent implements OnInit {
     if (this.bucketlists[index].items.length > 0) {
       this.showItems = !this.showItems;
     }
-    console.log(index, this.showItems, this.selectedItem);
     if (!(this.selectedItem === index)) {
       this.showItems = true;
     }
@@ -180,7 +179,6 @@ export class BucketlistViewComponent implements OnInit {
     event.stopPropagation();
   }
   complete_item(event, x, done, item) {
-    console.log('DONE?:' + done);
     done = !done;
     let btn = document.getElementById(x);
     btn.textContent = this.item_status(done);
@@ -216,23 +214,17 @@ export class BucketlistViewComponent implements OnInit {
     });
   }
   scroll_detector () {
-    console.log('mambo haya....')
     let display_port = document.getElementsByClassName('mainView')[0];
     if (display_port.scrollHeight > display_port.clientHeight) {
-      console.log('XXXXX', display_port.scrollHeight)
       this.scrollable = true;
-      console.log('RESULT?', display_port.scrollHeight - display_port.scrollTop - display_port.clientHeight);
       if ((display_port.scrollHeight - display_port.scrollTop - display_port.clientHeight) > 0) {
         document.getElementsByClassName('scroll-indicator-bottom')[0].classList.remove('scroll-bottom');
       } else {
-        console.log('REMOVED?????????????????')
         document.getElementsByClassName('scroll-indicator-bottom')[0].classList.add('scroll-bottom');
       }
     } else {
       this.scrollable = false;
-      console.log('TTTTTT');
     }
-    console.log('SCROLLTOP', display_port.scrollTop)
     if (display_port.scrollTop === 0) {
       this.scrolled_top = true;
     } else {

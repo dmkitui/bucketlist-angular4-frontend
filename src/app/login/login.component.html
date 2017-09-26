@@ -1,19 +1,44 @@
-<form>
+<form (ngSubmit)="logIn(user_email, password); loginForm.reset()" #loginForm="ngForm">
   <div class="main-panel">
     <h4> {{ title }}</h4>
-    <div class="input-box form-group">
-      <label for="email" class="lab">Email Address</label>
-      <input class="i-box form-control" ngModel name="email" id="email" #email type="email" required>
+    <div class="input-box">
+      <div class="form-g">
+        <label for="email" class="input-label">Email Address</label>
+        <input class="i-box form-control"
+               [(ngModel)]="user_email"
+               name="user_email"
+               id="email"
+               type="email"
+               required
+               #user_email_validator="ngModel"
+               email="true"
+               (focus)="remove_error()"
+        >
+        <div *ngIf="user_email_validator.invalid && (user_email_validator.dirty || user_email_validator.touched)" class="alert alert-danger">
+          <div *ngIf="user_email_validator.errors.required">
+            Email is required.
+          </div>
+          <div *ngIf="user_email_validator.errors.email">
+            Invalid email address.
+          </div>
+        </div>
+      </div>
       <br>
-      <label for="password" class="lab">Password</label>
-      <input ngModel name="password" id="password" type="password" class="i-box form-control" required>
+      <label for="password" class="input-label">Password</label>
+      <input [(ngModel)]="password" name="password" id="password" type="password" class="i-box form-control" #pwd_validator="ngModel" required>
+      <div *ngIf="pwd_validator.invalid && (pwd_validator.dirty || pwd_validator.touched)" class="alert alert-danger">
+        Password is required.
+      </div>
       <br>
-      <div class="rem text-center">
+      <div class="rem text-center form-group">
         <input type="checkbox" id="remember-me" checked>
         <label for="remember-me">Remember Me</label>
       </div>
       <div class="text-center submit-btn-container">
-        <button class="btn-lg" id="submit-btn">Log In</button>
+        <button type="submit" class="btn-lg submit-btn" [disabled]="loginForm.invalid">Log In</button>
+      </div>
+      <div *ngIf="invalid_credential" class="alert alert-danger">
+        Invalid email/username combination. Please try again or fuck 0ff!
       </div>
       <div class="row">
         <div class="col-md-12">

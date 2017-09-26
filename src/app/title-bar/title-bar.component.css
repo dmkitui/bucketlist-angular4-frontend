@@ -50,7 +50,6 @@
 }
 
 .user-info {
-  border: 1px solid lightgray;
   height: 95%;
   margin-bottom: 5px;
   display: flex;
@@ -67,4 +66,8 @@
 }
 .details {
   margin: 0 auto;
+}
+
+#name a {
+  color: darkgreen;
 }
