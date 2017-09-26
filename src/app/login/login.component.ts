@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { BucketlistsServiceService } from '../bucketlists-service.service';
+import { AlertService } from '../alert-service.service';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +13,7 @@ export class LoginComponent implements OnInit {
   user_email = '';
   password = '';
   invalid_credential = false;
-  constructor(private router: Router, private bucketlists_service: BucketlistsServiceService) { }
+  constructor(private alertService: AlertService, private router: Router, private bucketlists_service: BucketlistsServiceService) { }
 
   ngOnInit() {
   }
@@ -20,8 +21,10 @@ export class LoginComponent implements OnInit {
     console.log(email, pwd);
     if (this.bucketlists_service.login(email, pwd)) {
       this.router.navigate(['/bucketlistview']);
+      this.alertService.success('Log in successful.');
     } else {
       this.invalid_credential = true;
+      this.alertService.error('Error during Login');
     }
   }
   remove_error() {
