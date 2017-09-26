@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { BucketlistsServiceService } from '../bucketlists-service.service';
 import swal, {SweetAlertOptions} from 'sweetalert2';
-import { Subscription } from 'rxjs/Subscription';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-title-bar',
@@ -14,7 +14,7 @@ export class TitleBarComponent implements OnInit {
   logged_in: any;
   user = {};
   _subscription: any;
-  constructor(private bucketlists_service: BucketlistsServiceService) {
+  constructor(private router: Router, private bucketlists_service: BucketlistsServiceService) {
     this.logged_in = false;
     this._subscription = this.bucketlists_service.logged_in_status.subscribe((value) => {
       this.logged_in = value;
@@ -30,6 +30,10 @@ export class TitleBarComponent implements OnInit {
   }
   user_info (user) {
     return user.email;
+  }
+  logout() {
+    this.bucketlists_service.logout();
+    this.router.navigate(['/home']);
   }
   items_count() {
     let count = 0;

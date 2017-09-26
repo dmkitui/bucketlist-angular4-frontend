@@ -23,7 +23,10 @@ export class BucketlistsServiceService {
   };
   change(loggedIn) {
     if (loggedIn) {
-      this.status = !status;
+      this.status = true;
+      this.logged_in_status.next(this.status);
+    } else {
+      this.status = false;
       this.logged_in_status.next(this.status);
     }
   }
@@ -35,5 +38,9 @@ export class BucketlistsServiceService {
       this.change(false);
       return false;
     }
+  }
+  logout() {
+    this.change(false);
+    this.logged_in_status.next(this.status);
   }
 }

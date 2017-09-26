@@ -29,5 +29,4 @@ export class LoginComponent implements OnInit {
       this.invalid_credential = false
     }
   }
-
 }
