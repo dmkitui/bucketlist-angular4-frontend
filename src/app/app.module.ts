@@ -13,7 +13,9 @@ import { BucketlistViewComponent } from './bucketlist-view/bucketlist-view.compo
 import { ListViewComponent } from './list-view/list-view.component';
 import { BucketlistsServiceService } from './bucketlists-service.service';
 import {Routes, RouterModule} from '@angular/router';
-import { FormsModule } from '@angular/forms' ;
+import { FormsModule } from '@angular/forms';
+import { AlertComponent } from './alert-service/alert-service.component' ;
+import { AlertService } from './alert-service.service';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -33,7 +35,8 @@ const routes: Routes = [
     HomepageComponent,
     RegisterComponent,
     BucketlistViewComponent,
-    ListViewComponent
+    ListViewComponent,
+    AlertComponent
   ],
   imports: [
     BrowserModule,
@@ -42,7 +45,8 @@ const routes: Routes = [
   ],
   providers: [
     SweetAlertService,
-    BucketlistsServiceService
+    BucketlistsServiceService,
+    AlertService
   ],
   bootstrap: [AppComponent]
 })

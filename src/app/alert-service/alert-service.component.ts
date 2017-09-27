@@ -20,9 +20,9 @@ export class AlertComponent {
                 this.alerts = [];
                 return;
             }
-
             // add alert to array
             this.alerts.push(alert);
+            setTimeout(() => this.removeAlert(alert), 5000);
         });
     }
 
