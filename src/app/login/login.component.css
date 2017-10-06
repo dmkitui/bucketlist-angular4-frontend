@@ -32,8 +32,8 @@
 }
 
 .submit-btn[disabled]:hover {
-  background-color: grey;
-  color: white;
+  background-color: lightgrey;
+  color: red;
 }
 
 .submit-btn-container {

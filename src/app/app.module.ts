@@ -12,10 +12,11 @@ import { RegisterComponent } from './register/register.component';
 import { BucketlistViewComponent } from './bucketlist-view/bucketlist-view.component';
 import { ListViewComponent } from './list-view/list-view.component';
 import { BucketlistsServiceService } from './bucketlists-service.service';
-import {Routes, RouterModule} from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { AlertComponent } from './alert-service/alert-service.component' ;
 import { AlertService } from './alert-service.service';
+import { SweetAlert2Module } from '@toverux/ngsweetalert2';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -41,7 +42,8 @@ const routes: Routes = [
   imports: [
     BrowserModule,
     FormsModule,
-    RouterModule.forRoot(routes, {useHash: true})
+    RouterModule.forRoot(routes, {useHash: true}),
+    [SweetAlert2Module]
   ],
   providers: [
     SweetAlertService,

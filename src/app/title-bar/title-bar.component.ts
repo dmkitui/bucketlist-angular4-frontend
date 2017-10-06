@@ -9,6 +9,7 @@ import { AlertService } from '../alert-service.service';
   templateUrl: './title-bar.component.html',
   styleUrls: ['./title-bar.component.css']
 })
+
 export class TitleBarComponent implements OnInit {
   title = 'Bucketlist Online Service';
   bucketlists = [];
