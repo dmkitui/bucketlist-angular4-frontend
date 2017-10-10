@@ -10,7 +10,7 @@
         <span id="etc">ETC</span>
         <br>
         <span>
-          <button class="logout btn-link" (click)="logout()">Log Out</button>
+          <button class="logout btn-link" [swal]="['Log Out Confirmation', 'Do you really want to log out now?', 'warning']" (confirm)="logout()">Log Out</button>
         </span>
       </div>
     </div>
