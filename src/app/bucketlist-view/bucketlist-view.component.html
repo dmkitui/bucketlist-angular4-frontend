@@ -1,12 +1,12 @@
 <div class="active col-md-12">
   <span class="scroll-indicator-top" [ngClass]="[scrolled_top? 'hidden' : 'overflow-indicator-top']"></span>
   <div class="mainView" id="main_window" (mouseover)="scroll_detector()" (scroll)="scroll_detector()">
-    <div class="list" *ngIf="bucketlists | async; else emptyList">
+    <div class="list" *ngIf="bucketlists; else emptyList">
       <div class="text-center view-select btn-group">
         <button class="btn btn view-selector" name="view-select">Detailed</button>
         <button class="btn btn view-selector" name="view-select">List</button>
       </div>
-      <div class="items" *ngFor="let item of bucketlists | async;  index as i" (click)="setClickedItem(i)" [class.active]="i == selectedItem">
+      <div class="items" *ngFor="let item of bucketlists;  index as i" (click)="setClickedItem(i)" [class.active]="i == selectedItem">
         <div class="detailed_view">
           <span class="index">{{ i + 1 }} .</span><span [ngClass]="[(showItems && i == selectedItem) ? 'item-title-alternate' : 'item-title']">{{ item.name|titlecase }}</span>
           <span>

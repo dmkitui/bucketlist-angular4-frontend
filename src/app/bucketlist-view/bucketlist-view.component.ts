@@ -16,6 +16,7 @@ export class BucketlistViewComponent implements OnInit {
   selectedItem = Number;
   status = false;
   bucketlists: any = [];
+  paginationInfo: any = {};
   scrollable = false;
   scrolled_top = true;
   item_status (state) {
@@ -28,8 +29,8 @@ export class BucketlistViewComponent implements OnInit {
 
   constructor(private bucketlists_service: BucketlistsServiceService,
               private registrationService: RegistrationService) {
-    let bucketlistData = this.getBucketlists()
-    this.bucketlists = bucketlistData;
+    let bucketlistData = this.getBucketlists();
+    // this.bucketlists = bucketlistData;
     console.log('Done getting bucketlists?', this.bucketlists);
   }
 
@@ -37,10 +38,13 @@ export class BucketlistViewComponent implements OnInit {
 
   async getBucketlists() {
     console.log('Gettign Bucketlists...');
-    let bucketlistsData = await this.registrationService.bucketlists();
-    console.log('XXXX: ', bucketlistsData);
-    console.log('Last: ', bucketlistsData);
-    return bucketlistsData;
+    let data: any;
+    let bucketlistsData = await this.registrationService.bucketlists().then(res => {
+      data = res;
+      this.paginationInfo = data.pop();
+      this.bucketlists = data;
+      return res;
+    });
   }
 
   setClickedItem (index) {
