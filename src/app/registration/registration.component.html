@@ -1,0 +1,61 @@
+<form name="form" (ngSubmit)="registration()" #regForm="ngForm">
+  <div class="main-panel">
+    <h4>{{ title }}</h4>
+    <div class="input-box">
+      <div class="form-group">
+        <label for="user_email" class="input-label">Email Address</label>
+        <input name="user_email"
+               class="i-box form-control"
+               id="user_email"
+               email="true"
+               #email="ngModel"
+               [(ngModel)]="user_email"
+               placeholder="Email Address"
+               required>
+        <div class="alert alert-danger" *ngIf="email.touched && email.errors?.required">
+          Email is required.
+        </div>
+        <div class="alert alert-danger" *ngIf="email.touched && email.invalid && !email.errors?.required">
+          Invalid email address.
+        </div>
+        <br>
+        <label for="password" class="input-label">Password</label>
+        <input [(ngModel)]="password"
+               class="i-box form-control"
+               name="password"
+               id="password"
+               type="password"
+               #pwd="ngModel"
+               placeholder="Enter Password"
+               required/>
+        <div *ngIf="pwd.invalid && pwd.touched" class="alert alert-danger">
+          Password is required.
+        </div>
+        <br>
+        <label for="repeat_password" class="input-label">Confirm Password</label>
+        <input [(ngModel)]="confirm_password"
+               name="confirm_password"
+               class="i-box form-control"
+               id="repeat_password"
+               type="password"
+               #confirmPwd="ngModel"
+               placeholder="Enter Password Again"
+               required
+               (blur)="pwd_check()">
+        <div *ngIf="password_mismatch" class="alert alert-danger">
+          Passwords do not match.
+        </div>
+        <br>
+        <div class="text-center submit-btn-container">
+          <button class="btn-lg submit-btn" type="submit" [disabled]="regForm.invalid || password_mismatch">Register For Service</button>
+        </div>
+        <div class="alert alert-danger" *ngIf="errorMessage">
+          <p>{{ errorMessage }}</p>
+        </div>
+        <div class="text-center">
+          <p>Already have an account?<button class="btn-link register-link" (click)="login()">Login here</button></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

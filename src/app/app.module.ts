@@ -8,7 +8,6 @@ import { MainscreenComponent } from './mainscreen/mainscreen.component';
 import { FooterComponent } from './footer/footer.component';
 import { TitleBarComponent } from './title-bar/title-bar.component';
 import { HomepageComponent } from './homepage/homepage.component';
-import { RegisterComponent } from './register/register.component';
 import { BucketlistViewComponent } from './bucketlist-view/bucketlist-view.component';
 import { ListViewComponent } from './list-view/list-view.component';
 import { BucketlistsServiceService } from './bucketlists-service.service';
@@ -17,11 +16,16 @@ import { FormsModule } from '@angular/forms';
 import { AlertComponent } from './alert-service/alert-service.component' ;
 import { AlertService } from './alert-service.service';
 import { SweetAlert2Module } from '@toverux/ngsweetalert2';
+import { RegistrationComponent } from './registration/registration.component';
+import { RegistrationService } from './registration.service';
+import { HttpModule } from '@angular/http';
+import { AuthGuard as AuthGuard } from './auth/auth.guard';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
-  { path: 'bucketlistview', component: BucketlistViewComponent },
+  { path: 'bucketlistview', component: BucketlistViewComponent, canActivate: [AuthGuard] },
   { path: 'home', component: HomepageComponent },
+  { path: 'register', component: RegistrationComponent},
   { path: '**', redirectTo: 'home'}
 ];
 
@@ -34,21 +38,24 @@ const routes: Routes = [
     FooterComponent,
     TitleBarComponent,
     HomepageComponent,
-    RegisterComponent,
     BucketlistViewComponent,
     ListViewComponent,
-    AlertComponent
+    AlertComponent,
+    RegistrationComponent
   ],
   imports: [
     BrowserModule,
+    HttpModule,
     FormsModule,
     RouterModule.forRoot(routes, {useHash: true}),
     [SweetAlert2Module]
   ],
   providers: [
+    AuthGuard,
     SweetAlertService,
     BucketlistsServiceService,
-    AlertService
+    AlertService,
+    RegistrationService
   ],
   bootstrap: [AppComponent]
 })
