@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { BucketlistsServiceService } from '../bucketlists-service.service';
 import { AlertService } from '../alert-service.service';
+import { RegistrationService } from '../registration.service';
 
 @Component({
   selector: 'app-login',
@@ -13,26 +13,33 @@ export class LoginComponent implements OnInit {
   user_email = '';
   password = '';
   invalid_credential = false;
-  constructor(private alertService: AlertService, private router: Router, private bucketlists_service: BucketlistsServiceService) { }
+  error: any;
+  constructor(private alertService: AlertService, private router: Router, private registrationService: RegistrationService) { }
 
   ngOnInit() {
+    // this.registrationService.logout();
   }
-  logIn(form) {
-    console.log('FORM: ', form);
-    let email = form.value.user_email;
-    let password = form.value.pwd;
-    if (this.bucketlists_service.login(email, password)) {
-      this.router.navigate(['/bucketlistview']);
-      this.alertService.success('Log in successful.');
-    } else {
-      this.password = null;
-      this.invalid_credential = true;
-      this.alertService.error('Error during Login');
-    }
+  logIn(user_email, password) {
+    this.registrationService.login(user_email, password)
+      .subscribe(
+        response => {
+          console.log('UI RESPONSE: ', response);
+          this.alertService.success('Login successful.');
+          this.router.navigate(['/bucketlistview']);
+        },
+        error => {
+          console.log('Errors: ', error);
+          this.error = error.message;
+        },
+        () => console.log('yay')
+      );
   }
   remove_error() {
     if (this.invalid_credential) {
       this.invalid_credential = false;
     }
+  }
+  register() {
+    this.router.navigate(['/register']);
   }
 }

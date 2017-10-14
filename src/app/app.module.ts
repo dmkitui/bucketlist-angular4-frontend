@@ -19,10 +19,11 @@ import { SweetAlert2Module } from '@toverux/ngsweetalert2';
 import { RegistrationComponent } from './registration/registration.component';
 import { RegistrationService } from './registration.service';
 import { HttpModule } from '@angular/http';
+import { AuthGuard as AuthGuard } from './auth/auth.guard';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
-  { path: 'bucketlistview', component: BucketlistViewComponent },
+  { path: 'bucketlistview', component: BucketlistViewComponent, canActivate: [AuthGuard] },
   { path: 'home', component: HomepageComponent },
   { path: 'register', component: RegistrationComponent},
   { path: '**', redirectTo: 'home'}
@@ -50,6 +51,7 @@ const routes: Routes = [
     [SweetAlert2Module]
   ],
   providers: [
+    AuthGuard,
     SweetAlertService,
     BucketlistsServiceService,
     AlertService,

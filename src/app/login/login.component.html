@@ -1,4 +1,4 @@
-<form name="form" (ngSubmit)="logIn(loginForm)" #loginForm="ngForm">
+<form name="form" (ngSubmit)="logIn(user_email, password)" #loginForm="ngForm">
   <div class="main-panel">
     <h4> {{ title }}</h4>
     <div class="input-box">
@@ -41,13 +41,13 @@
         <div class="text-center submit-btn-container">
           <button type="submit" class="btn-lg submit-btn" [disabled]="loginForm.form.invalid">Log In</button>
         </div>
-        <div *ngIf="invalid_credential" class="alert alert-danger">
-          Invalid email/username combination. Please try again or fuck 0ff!
+        <div class="alert alert-danger text-center" *ngIf="error">
+          <p>{{ error }}</p>
         </div>
         <div class="row">
           <div class="col-md-12">
             <div class="text-left col-md-5 float-left">
-              <button type="button" class="btn-link register-link">Register</button>
+              <button type="button" class="btn-link register-link" (click)="register()">Register</button>
             </div>
             <div class="text-right col-md-5 float-lg-right">
               <button type="button" class="btn-link register-link">Forgot Password?</button>

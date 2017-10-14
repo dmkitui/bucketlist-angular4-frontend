@@ -20,7 +20,10 @@ export class RegistrationComponent implements OnInit {
   message: any;
   errorMessage: any;
 
-  constructor(private alertService: AlertService, private router: Router, private registrationService: RegistrationService) {}
+  constructor(private alertService: AlertService,
+              private router: Router,
+              private registrationService: RegistrationService
+  ) {}
 
   ngOnInit() {
   }
@@ -30,9 +33,15 @@ export class RegistrationComponent implements OnInit {
         response => {
           console.log('UI RESPONSE: ', response, response.status);
           this.message = response;
-          // if (response.status !==)
+          this.alertService.success('Registration successful. Welcome to Bucketlist ' + this.user_email);
+          this.router.navigate(['/bucketlistview']);
         },
-        error => {console.log('Errors: ', error); this.errorMessage = error.message; });
+        error => {
+          console.log('Errors: ', error);
+          this.errorMessage = error.message;
+        },
+        () => console.log('yay')
+      );
   }
   pwd_check() {
     if (this.confirm_password !== this.password) {
