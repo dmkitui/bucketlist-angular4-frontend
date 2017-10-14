@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertService } from '../alert-service.service';
-import { RegistrationService } from '../registration.service';
+import { RegistrationService } from '../api.service';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 

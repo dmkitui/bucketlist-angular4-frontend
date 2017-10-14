@@ -17,7 +17,7 @@ import { AlertComponent } from './alert-service/alert-service.component' ;
 import { AlertService } from './alert-service.service';
 import { SweetAlert2Module } from '@toverux/ngsweetalert2';
 import { RegistrationComponent } from './registration/registration.component';
-import { RegistrationService } from './registration.service';
+import { RegistrationService } from './api.service';
 import { HttpModule } from '@angular/http';
 import { AuthGuard as AuthGuard } from './auth/auth.guard';
 

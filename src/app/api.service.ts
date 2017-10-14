@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, Response, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/toPromise';
+
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
@@ -9,11 +11,12 @@ import 'rxjs/add/operator/catch';
 export class RegistrationService {
   private regUrl = 'http://127.0.0.1:5000/api/v1/auth/register';
   private loginUrl = 'http://127.0.0.1:5000/api/v1/auth/login';
+  private bucketlistUrl = 'http://127.0.0.1:5000/api/v1/bucketlists/';
   // 'https://flask-api-bucketlist.herokuapp.com/api/v1/auth/register';
   res: any = {};
   resp: any = {};
   error: Response;
-  token: any = {}
+  token: any = {};
   constructor(private http: Http) { }
   register(user_email: string, password: string, confirm_password: string): Observable<Response> {
     let headers    = new Headers({ 'Content-Type': 'application/json' });
@@ -39,7 +42,8 @@ export class RegistrationService {
         let token = response.json() && response.json().access_token;
         if (token) {
           // set token property
-          this.token = token;
+          // this.token = response.json().access_token;
+          localStorage.setItem('token', response.json().access_token)
           // store username and jwt token in local storage to keep user logged in between page refreshes
           localStorage.setItem('currentUser', JSON.stringify({user_email: user_email, token: token}));
           // return true to indicate successful login
@@ -53,7 +57,27 @@ export class RegistrationService {
   }
   logout(): void {
     // clear token remove user from local storage to log user out
-    this.token = null;
+    localStorage.removeItem('token');
     localStorage.removeItem('currentUser');
+  }
+  async  bucketlists(): Promise<Response> {
+    let token = localStorage.getItem('token');
+    console.log('Fetching bucketlists?', token);
+    let user_token = 'Bearer ' + token;
+    let headers = new Headers({'Content-Type': 'application/json', 'Authorization': user_token});
+    let options = new RequestOptions({headers: headers});
+    try {
+      let bucketlist = await this.http
+        .get(this.bucketlistUrl, options)
+        .toPromise();
+      console.log('RESPONSE: ', bucketlist.json());
+      return bucketlist.json();
+    } catch (error) {
+      await this.errorHandler(error);
+        console.log('Backend ERROR!!!!: ', error.json());
+      }
+  }
+  errorHandler (error) {
+    console.log(error);
   }
 }

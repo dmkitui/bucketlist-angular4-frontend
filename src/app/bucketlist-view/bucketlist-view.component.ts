@@ -1,7 +1,8 @@
 import {Component, Directive, OnInit} from '@angular/core';
 import swal, {SweetAlertOptions} from 'sweetalert2';
 import { BucketlistsServiceService } from '../bucketlists-service.service';
-import { Subscription } from 'rxjs/Subscription';
+import { RegistrationService } from '../api.service';
+import {arrayify} from "tslint/lib/utils";
 
 @Component({
   selector: 'app-bucketlist-view',
@@ -14,10 +15,9 @@ export class BucketlistViewComponent implements OnInit {
   showItems = false;
   selectedItem = Number;
   status = false;
-  bucketlists = [];
+  bucketlists: any = [];
   scrollable = false;
   scrolled_top = true;
-  // bucketlists = this.BucketlistsServiceService.bucketlists;
   item_status (state) {
     if (state === true) {
       return 'DONE';
@@ -26,12 +26,23 @@ export class BucketlistViewComponent implements OnInit {
     }
   }
 
-  constructor(private bucketlists_service: BucketlistsServiceService) {
+  constructor(private bucketlists_service: BucketlistsServiceService,
+              private registrationService: RegistrationService) {
+    let bucketlistData = this.getBucketlists()
+    this.bucketlists = bucketlistData;
+    console.log('Done getting bucketlists?', this.bucketlists);
   }
 
-  ngOnInit() {
-    this.bucketlists = this.bucketlists_service.bucketlists;
+  ngOnInit() {}
+
+  async getBucketlists() {
+    console.log('Gettign Bucketlists...');
+    let bucketlistsData = await this.registrationService.bucketlists();
+    console.log('XXXX: ', bucketlistsData);
+    console.log('Last: ', bucketlistsData);
+    return bucketlistsData;
   }
+
   setClickedItem (index) {
     this.selectedItem = index;
     if (this.bucketlists[index].items.length > 0) {

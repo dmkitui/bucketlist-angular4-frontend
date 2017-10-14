@@ -3,7 +3,7 @@ import { BucketlistsServiceService } from '../bucketlists-service.service';
 import swal, {SweetAlertOptions} from 'sweetalert2';
 import { Router } from '@angular/router';
 import { AlertService } from '../alert-service.service';
-import { RegistrationService } from '../registration.service';
+import { RegistrationService } from '../api.service';
 
 
 @Component({
