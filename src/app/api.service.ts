@@ -68,6 +68,8 @@ export class RegistrationService {
         .get(this.bucketlistUrl, options)
         .toPromise();
       console.log('RESPONSE: ', bucketlist.json());
+      console.log('ITEM TYPE', typeof(bucketlist.json()[2].items[0].date_created))
+
       return bucketlist.json();
     } catch (error) {
       await this.errorHandler(error);

@@ -12,7 +12,6 @@ export class BucketlistViewComponent implements OnInit {
   title = 'Bucketlists';
   showItems = false;
   selectedItem = Number;
-  status = false;
   bucketlists: any = [];
   paginationInfo: any = {};
   scrollable = false;
@@ -248,5 +247,11 @@ export class BucketlistViewComponent implements OnInit {
     } else {
       this.scrolled_top = false;
     }
+  }
+  timeDisplay(date) {
+    const options = { hour: 'numeric', minute: 'numeric', year: 'numeric', month: 'long', day: 'numeric' };
+    let time = new Date(date).toLocaleString('en-US', options);
+
+    return time;
   }
 }

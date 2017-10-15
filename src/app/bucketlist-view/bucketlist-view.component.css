@@ -29,6 +29,21 @@ div .active{
   font-family: Papyrus;
   font-size: 1.5em;
 }
+.item-time {
+  font-size: 0.75em;
+  color: blue;
+  margin-bottom: 50px;
+}
+.item-count {
+  margin-top: 0;
+  color: red;
+  font-size: 0.9em;
+}
+.item-time > p {
+  color: red;
+  display: inline;
+}
+
 .item-title-alternate {
   display: none;
 }
@@ -186,7 +201,7 @@ tr:nth-child(even) {
   font-size: 30px;
   font-family: Papyrus;
   color: green;
-  margin-bottom: 15px;
+  margin-bottom: 5px;
   font-weight: bold;
 }
 .item_status {
