@@ -1,8 +1,6 @@
 import {Component, Directive, OnInit} from '@angular/core';
 import swal, {SweetAlertOptions} from 'sweetalert2';
-import { BucketlistsServiceService } from '../bucketlists-service.service';
 import { RegistrationService } from '../api.service';
-import {arrayify} from "tslint/lib/utils";
 
 @Component({
   selector: 'app-bucketlist-view',
@@ -27,9 +25,8 @@ export class BucketlistViewComponent implements OnInit {
     }
   }
 
-  constructor(private bucketlists_service: BucketlistsServiceService,
-              private registrationService: RegistrationService) {
-    let bucketlistData = this.getBucketlists();
+  constructor(private api_service: RegistrationService) {
+    this.getBucketlists();
     // this.bucketlists = bucketlistData;
     console.log('Done getting bucketlists?', this.bucketlists);
   }
@@ -39,10 +36,16 @@ export class BucketlistViewComponent implements OnInit {
   async getBucketlists() {
     console.log('Gettign Bucketlists...');
     let data: any;
-    let bucketlistsData = await this.registrationService.bucketlists().then(res => {
+    await this.api_service.bucketlists().then(res => {
       data = res;
+      console.log(data);
+      if (data.message) {
+        this.bucketlists = [];
+        return res;
+      }
       this.paginationInfo = data.pop();
       this.bucketlists = data;
+      console.log(this.bucketlists);
       return res;
     });
   }

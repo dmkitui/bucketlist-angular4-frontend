@@ -1,13 +1,14 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { BucketlistsServiceService } from '../bucketlists-service.service';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy} from '@angular/core';
 import swal, {SweetAlertOptions} from 'sweetalert2';
 import { Router } from '@angular/router';
 import { AlertService } from '../alert-service.service';
 import { RegistrationService } from '../api.service';
+import { AuthGuard } from '../auth/auth.guard';
 
 
 @Component({
   selector: 'app-title-bar',
+  changeDetection: ChangeDetectionStrategy.Default,
   templateUrl: './title-bar.component.html',
   styleUrls: ['./title-bar.component.css']
 })
@@ -15,30 +16,21 @@ import { RegistrationService } from '../api.service';
 export class TitleBarComponent implements OnInit {
   title = 'Bucketlist Online Service';
   bucketlists = [];
-  logged_in: any;
-  user = {};
-  _subscription: any;
+
   constructor(private alertService: AlertService,
               private router: Router,
-              private bucketlists_service: BucketlistsServiceService,
-              private registrationService: RegistrationService
-  ) {
-    this.logged_in = false;
-    this._subscription = this.bucketlists_service.logged_in_status.subscribe((value) => {
-      this.logged_in = value;
-    });
+              private registrationService: RegistrationService,
+              private authservice: AuthGuard
+  ) {}
+  ngOnInit() {}
+  ngOnDestroy() {}
+  getUser() {
+    return JSON.parse(localStorage.getItem('currentUser')).user_email;
   }
-  ngOnInit() {
-    this.bucketlists = this.bucketlists_service.bucketlists;
-    this.user = this.bucketlists_service.user_info;
+  loginStatus() {
+    return (localStorage.getItem('token') && localStorage.getItem('currentUser'));
   }
-  ngOnDestroy() {
-   // prevent memory leak when component destroyed
-    this._subscription.unsubscribe();
-  }
-  user_info (user) {
-    return user.email;
-  }
+
   logout() {
     this.registrationService.logout();
     this.router.navigate(['/home']);

@@ -1,11 +1,11 @@
 <div class="header-bar">
   <div class="userDetails">
-    <div class="user-info">
+    <div class="user-info" *ngIf="loginStatus()">
       <a class="user-thumbnail">
         <img src="../../assets/images/user-placeholder.png">
       </a>
       <div class="details">
-        <span id="name"><a href="">{{ user_info(user) }}</a></span>
+        <span id="name"><a href="">{{ getUser() }}</a></span>
         <br>
         <span id="etc">ETC</span>
         <br>
@@ -18,7 +18,7 @@
   <div class="title-box">
     <h2 class="text-center">{{ title }}</h2>
   </div>
-  <div class="new_button_holder" *ngIf="logged_in">
+  <div class="new_button_holder" *ngIf="loginStatus()">
     <div class="list-buttons">
       <button class="btn btn-lg new-button" (click)="newBucketlist()">New Bucketlist</button>
     </div>

@@ -12,10 +12,7 @@ export class RegistrationService {
   private regUrl = 'http://127.0.0.1:5000/api/v1/auth/register';
   private loginUrl = 'http://127.0.0.1:5000/api/v1/auth/login';
   private bucketlistUrl = 'http://127.0.0.1:5000/api/v1/bucketlists/';
-  // 'https://flask-api-bucketlist.herokuapp.com/api/v1/auth/register';
-  res: any = {};
-  resp: any = {};
-  error: Response;
+
   token: any = {};
   constructor(private http: Http) { }
   register(user_email: string, password: string, confirm_password: string): Observable<Response> {
@@ -43,9 +40,9 @@ export class RegistrationService {
         if (token) {
           // set token property
           // this.token = response.json().access_token;
-          localStorage.setItem('token', response.json().access_token)
+          localStorage.setItem('token', response.json().access_token);
           // store username and jwt token in local storage to keep user logged in between page refreshes
-          localStorage.setItem('currentUser', JSON.stringify({user_email: user_email, token: token}));
+          localStorage.setItem('currentUser', JSON.stringify({user_email: user_email}));
           // return true to indicate successful login
           return response.json();
         }
