@@ -1,10 +1,11 @@
-import {Component, Directive, OnInit, ChangeDetectionStrategy} from '@angular/core';
+import {Component, Directive, OnInit, ChangeDetectionStrategy, Input, ChangeDetectorRef} from '@angular/core';
 import swal, {SweetAlertOptions} from 'sweetalert2';
 import { RegistrationService } from '../api.service';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-bucketlist-view',
-  // changeDetection: ChangeDetectionStrategy.Default,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './bucketlist-view.component.html',
   styleUrls: ['./bucketlist-view.component.css']
 })
@@ -17,6 +18,7 @@ export class BucketlistViewComponent implements OnInit {
   paginationInfo: any = {};
   scrollable = false;
   scrolled_top = true;
+
   item_status (state) {
     if (state === true) {
       return 'DONE';
@@ -25,7 +27,7 @@ export class BucketlistViewComponent implements OnInit {
     }
   }
 
-  constructor(private api_service: RegistrationService) {
+  constructor(private api_service: RegistrationService, private cd: ChangeDetectorRef) {
     this.getBucketlists();
     // this.bucketlists = bucketlistData;
     console.log('Done getting bucketlists?', this.bucketlists);

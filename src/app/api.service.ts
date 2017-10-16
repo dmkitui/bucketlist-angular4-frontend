@@ -14,8 +14,6 @@ export class RegistrationService {
   private loginUrl = 'http://127.0.0.1:5000/api/v1/auth/login';
   private bucketlistUrl = 'http://127.0.0.1:5000/api/v1/bucketlists/';
 
-  userBucketlists = new BehaviorSubject([]);
-
   token: any = {};
   constructor(private http: Http) { }
   register(user_email: string, password: string, confirm_password: string): Observable<Response> {
@@ -71,6 +69,7 @@ export class RegistrationService {
         .get(this.bucketlistUrl, options)
         .toPromise();
       console.log('RESPONSE: ', bucketlist.json());
+
       return bucketlist.json();
     } catch (error) {
       await this.errorHandler(error);
