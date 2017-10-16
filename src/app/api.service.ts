@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, Response, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
+import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import 'rxjs/add/operator/toPromise';
 
 import 'rxjs/add/observable/throw';
@@ -12,6 +13,8 @@ export class RegistrationService {
   private regUrl = 'http://127.0.0.1:5000/api/v1/auth/register';
   private loginUrl = 'http://127.0.0.1:5000/api/v1/auth/login';
   private bucketlistUrl = 'http://127.0.0.1:5000/api/v1/bucketlists/';
+
+  userBucketlists = new BehaviorSubject([]);
 
   token: any = {};
   constructor(private http: Http) { }
@@ -68,15 +71,30 @@ export class RegistrationService {
         .get(this.bucketlistUrl, options)
         .toPromise();
       console.log('RESPONSE: ', bucketlist.json());
-      console.log('ITEM TYPE', typeof(bucketlist.json()[2].items[0].date_created))
-
       return bucketlist.json();
     } catch (error) {
       await this.errorHandler(error);
-        console.log('Backend ERROR!!!!: ', error.json());
-      }
+    }
   }
   errorHandler (error) {
     console.log(error);
+  }
+  async newBucketlistDB(name): Promise<Response> {
+    console.log('Adding New: ', name)
+    let token = localStorage.getItem('token');
+    let user_token = 'Bearer ' + token;
+    let headers = new Headers({'Content-Type': 'application/json', 'Authorization': user_token});
+    let options = new RequestOptions({headers: headers});
+    let body = { 'name': name };
+    try {
+      let bucketlist = await this.http
+        .post(this.bucketlistUrl, body, options)
+        .toPromise();
+      console.log('RESPONSE NEW: ', bucketlist.json());
+      return bucketlist;
+    } catch (error) {
+      return error;
+      // await this.errorHandler(error);
+    }
   }
 }

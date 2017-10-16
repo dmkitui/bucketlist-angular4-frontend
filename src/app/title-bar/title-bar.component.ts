@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy} from '@angular/core';
+import { Component, OnInit, OnDestroy} from '@angular/core'; // ChangeDetectionStrategy
 import swal, {SweetAlertOptions} from 'sweetalert2';
 import { Router } from '@angular/router';
 import { AlertService } from '../alert-service.service';
@@ -8,7 +8,7 @@ import { AuthGuard } from '../auth/auth.guard';
 
 @Component({
   selector: 'app-title-bar',
-  changeDetection: ChangeDetectionStrategy.Default,
+  // changeDetection: ChangeDetectionStrategy.Default,
   templateUrl: './title-bar.component.html',
   styleUrls: ['./title-bar.component.css']
 })
@@ -16,14 +16,18 @@ import { AuthGuard } from '../auth/auth.guard';
 export class TitleBarComponent implements OnInit {
   title = 'Bucketlist Online Service';
   bucketlists = [];
+  error: string;
 
   constructor(private alertService: AlertService,
               private router: Router,
-              private registrationService: RegistrationService,
+              private api_service: RegistrationService,
               private authservice: AuthGuard
   ) {}
-  ngOnInit() {}
+  ngOnInit() {
+    this.loginStatus();
+  }
   ngOnDestroy() {}
+
   getUser() {
     return JSON.parse(localStorage.getItem('currentUser')).user_email;
   }
@@ -32,7 +36,7 @@ export class TitleBarComponent implements OnInit {
   }
 
   logout() {
-    this.registrationService.logout();
+    this.api_service.logout();
     this.router.navigate(['/home']);
     this.alertService.success('Logout successful');
   }
@@ -54,14 +58,28 @@ export class TitleBarComponent implements OnInit {
     }
     return count;
   }
-  addBucketlist(name) {
-    let new_bucketlist = {
-      'name': name,
-      'id' : this.bucketlists.length + 1,
-      'items': []
-    };
-    this.bucketlists.push(new_bucketlist);
-    event.stopPropagation();
+  async addBucketlist(name) {
+    console.log('Name: ', name);
+    let data: any;
+    await this.api_service.newBucketlistDB(name).then(res => {
+      data = res.json();
+      console.log('DATA  : ', res.json());
+      if (data.message) {
+        this.bucketlists = [];
+        console.log(data.message);
+        // return data.message;
+        this.error = data.message;
+        return false;
+      } else {
+        // this.bucketlists = data;
+        console.log('XXXXXXXX', res.json());
+        return res.json();
+        // ans = res.json();
+      }
+    });
+    // console.log('ANS', ans)
+    // return ans;
+    // event.stopPropagation();
   }
   newBucketlist() {
     const self = this;
@@ -83,12 +101,22 @@ export class TitleBarComponent implements OnInit {
       },
       allowOutsideClick: false
     }).then(function (text) {
-      self.addBucketlist(text);
-      swal({
-        type: 'success',
-        html: `New bucketlist <b>${text}</b> successfully added.`,
-        timer: 1000
-      });
+      let answer = self.addBucketlist(text).then(res => res);
+      console.log('ANSWER: ', answer)
+      if (answer) {
+        swal({
+          type: 'success',
+          html: `New bucketlist <b>${text}</b> successfully added.`,
+          timer: 1000
+        }).catch(error => console.log('Error: ', error));
+      } else {
+        swal({
+          type: 'error',
+          html: `Not created!`,
+          timer: 1000
+        }).catch(error => console.log('Error: ', error));
+      }
+
     });
   }
 }

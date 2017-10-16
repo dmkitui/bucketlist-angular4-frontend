@@ -1,9 +1,10 @@
-import {Component, Directive, OnInit} from '@angular/core';
+import {Component, Directive, OnInit, ChangeDetectionStrategy} from '@angular/core';
 import swal, {SweetAlertOptions} from 'sweetalert2';
 import { RegistrationService } from '../api.service';
 
 @Component({
   selector: 'app-bucketlist-view',
+  // changeDetection: ChangeDetectionStrategy.Default,
   templateUrl: './bucketlist-view.component.html',
   styleUrls: ['./bucketlist-view.component.css']
 })
@@ -37,7 +38,7 @@ export class BucketlistViewComponent implements OnInit {
     let data: any;
     await this.api_service.bucketlists().then(res => {
       data = res;
-      console.log(data);
+      console.log('DATA  : ', data);
       if (data.message) {
         this.bucketlists = [];
         return res;
@@ -116,7 +117,7 @@ export class BucketlistViewComponent implements OnInit {
           type: 'success',
           timer: 1500,
           confirmButtonColor: '#5aaa3d'
-        });
+        }).catch(error => console.log('Error: ', error));
       }
     }, function (dismiss) {
       // dismiss can be 'cancel', 'overlay',
@@ -128,7 +129,7 @@ export class BucketlistViewComponent implements OnInit {
           type: 'error',
           timer: 1500,
           confirmButtonColor: '#5aaa3d'
-        });
+        }).catch(error => console.log('Error: ', error));
       }
     });
     event.stopPropagation();
