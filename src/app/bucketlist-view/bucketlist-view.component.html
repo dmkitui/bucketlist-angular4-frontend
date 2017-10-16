@@ -13,11 +13,16 @@
             <div class="action-buttons">
               <button class="btn btn-lg edit" (click)="editItem($event, item)">Edit</button>
               <button class="btn btn-lg add-item" (click)="addItem(item)">Add Item</button>
-              <a class="btn btn-lg delete" (click)="deleteItem(item)">Delete</a>
+              <a class="btn btn-lg delete" (click)="deleteItem(item.id)">Delete</a>
             </div>
           </span>
           <div class="listItem_div" *ngIf="showItems && (i == selectedItem) && (item.items.length > 0)" >
             <div class="sub-title text-center">{{ item.name|titlecase }}</div>
+            <p class="text-center item-count">{{ item.items.length }} bucketlist items</p>
+            <div class="text-center item-time">
+              Created on: <p>{{ timeDisplay(item.date_created) }}</p>
+              Last Activity: <p>{{timeDisplay(item.date_modified)}}
+            </div>
             <table>
               <tr>
                 <th>No.</th>
@@ -28,9 +33,9 @@
               </tr>
               <tr class="list_item_rows" *ngFor="let list_item of item.items; index as x">
                 <td>{{ x + 1 }}.</td>
-                <td class="list_name">{{ list_item.name }}</td>
-                <td> - </td>
-                <td> - </td>
+                <td class="list_name">{{ list_item.item_name }}</td>
+                <td> {{ timeDisplay(list_item.date_created) }} </td>
+                <td> {{ timeDisplay(list_item.date_modified) }} </td>
                 <td>
                   <button class="btn btn-sm item_status" id="{{x}}" [ngClass]="[list_item.done? 'item_status_done' : 'item_status_not_done']" (click)="complete_item($event, x, list_item.done, item)">{{ list_item.done? 'DONE!' : 'Not Yet' }}</button>
                 </td>

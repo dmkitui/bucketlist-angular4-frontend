@@ -1,7 +1,7 @@
-import {Component, Directive, OnInit} from '@angular/core';
+import {Component, Directive, OnInit, Input} from '@angular/core';
 import swal, {SweetAlertOptions} from 'sweetalert2';
-import { BucketlistsServiceService } from '../bucketlists-service.service';
-import { Subscription } from 'rxjs/Subscription';
+import { RegistrationService } from '../api.service';
+import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-bucketlist-view',
@@ -13,11 +13,11 @@ export class BucketlistViewComponent implements OnInit {
   title = 'Bucketlists';
   showItems = false;
   selectedItem = Number;
-  status = false;
-  bucketlists = [];
+  bucketlists: any = [];
+  paginationInfo: any = {};
   scrollable = false;
   scrolled_top = true;
-  // bucketlists = this.BucketlistsServiceService.bucketlists;
+
   item_status (state) {
     if (state === true) {
       return 'DONE';
@@ -26,12 +26,31 @@ export class BucketlistViewComponent implements OnInit {
     }
   }
 
-  constructor(private bucketlists_service: BucketlistsServiceService) {
+  constructor(private api_service: RegistrationService) {
+    this.getBucketlists();
+    // this.bucketlists = bucketlistData;
+    console.log('Done getting bucketlists?', this.bucketlists);
   }
 
-  ngOnInit() {
-    this.bucketlists = this.bucketlists_service.bucketlists;
+  ngOnInit() {}
+
+  async getBucketlists() {
+    console.log('Gettign Bucketlists...');
+    let data: any;
+    await this.api_service.bucketlists().then(res => {
+      data = res;
+      console.log('DATA  : ', data);
+      if (data.message) {
+        this.bucketlists = [];
+        return res;
+      }
+      this.paginationInfo = data.pop();
+      this.bucketlists = data;
+      console.log(this.bucketlists);
+      return res;
+    });
   }
+
   setClickedItem (index) {
     this.selectedItem = index;
     if (this.bucketlists[index].items.length > 0) {
@@ -65,10 +84,27 @@ export class BucketlistViewComponent implements OnInit {
     event.stopPropagation();
   }
 
-  deleteBucketlist(item) {
-    let ind = this.bucketlists.indexOf(item);
-    this.bucketlists.splice(ind, 1);
-    event.stopPropagation();
+  async deleteBucketlist(id) {
+    await this.api_service.deleteBucketlist(id).then(res => {
+      if (res.status === 200) {
+        swal({
+          title: 'Deleted!',
+          text: 'Item deleted Successfully.',
+          type: 'success',
+          timer: 1500,
+          confirmButtonColor: '#5aaa3d'
+        }).catch(error => console.log('Error: ', error));
+        this.getBucketlists();
+      } else {
+        swal({
+          title: 'Error Deleting Bucketlist!',
+          text: 'A problem occured while deleting bucketlist.',
+          type: 'error',
+          timer: 5500,
+          confirmButtonColor: '#5aaa3d'
+        }).catch(error => console.log('Error: ', error));
+      }
+    });
   }
 
   addItemToBucketlist(item, text) {
@@ -78,7 +114,7 @@ export class BucketlistViewComponent implements OnInit {
     event.stopPropagation();
   }
 
-  deleteItem(item) {
+  deleteItem(id) {
     const self = this;
     swal({
       title: 'Confirm Delete of Bucketlist Item.',
@@ -92,14 +128,7 @@ export class BucketlistViewComponent implements OnInit {
       customClass: 'confirmationBox'
     }).then(function (isConfirm) {
       if (isConfirm) {
-        self.deleteBucketlist(item);
-        swal({
-          title: 'Deleted!',
-          text: 'Item deleted Successfully.',
-          type: 'success',
-          timer: 1500,
-          confirmButtonColor: '#5aaa3d'
-        });
+        self.deleteBucketlist(id);
       }
     }, function (dismiss) {
       // dismiss can be 'cancel', 'overlay',
@@ -111,7 +140,7 @@ export class BucketlistViewComponent implements OnInit {
           type: 'error',
           timer: 1500,
           confirmButtonColor: '#5aaa3d'
-        });
+        }).catch(error => console.log('Error: ', error));
       }
     });
     event.stopPropagation();
@@ -230,5 +259,11 @@ export class BucketlistViewComponent implements OnInit {
     } else {
       this.scrolled_top = false;
     }
+  }
+  timeDisplay(date) {
+    const options = { hour: 'numeric', minute: 'numeric', year: 'numeric', month: 'long', day: 'numeric' };
+    let time = new Date(date).toLocaleString('en-US', options);
+
+    return time;
   }
 }

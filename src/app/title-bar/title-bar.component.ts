@@ -1,13 +1,14 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { BucketlistsServiceService } from '../bucketlists-service.service';
+import { Component, OnInit, OnDestroy} from '@angular/core'; // ChangeDetectionStrategy
 import swal, {SweetAlertOptions} from 'sweetalert2';
 import { Router } from '@angular/router';
 import { AlertService } from '../alert-service.service';
-import { RegistrationService } from '../registration.service';
+import { RegistrationService } from '../api.service';
+import { AuthGuard } from '../auth/auth.guard';
 
 
 @Component({
   selector: 'app-title-bar',
+  // changeDetection: ChangeDetectionStrategy.Default,
   templateUrl: './title-bar.component.html',
   styleUrls: ['./title-bar.component.css']
 })
@@ -15,32 +16,27 @@ import { RegistrationService } from '../registration.service';
 export class TitleBarComponent implements OnInit {
   title = 'Bucketlist Online Service';
   bucketlists = [];
-  logged_in: any;
-  user = {};
-  _subscription: any;
+  error: string;
+
   constructor(private alertService: AlertService,
               private router: Router,
-              private bucketlists_service: BucketlistsServiceService,
-              private registrationService: RegistrationService
-  ) {
-    this.logged_in = false;
-    this._subscription = this.bucketlists_service.logged_in_status.subscribe((value) => {
-      this.logged_in = value;
-    });
-  }
+              private api_service: RegistrationService,
+              private authservice: AuthGuard
+  ) {}
   ngOnInit() {
-    this.bucketlists = this.bucketlists_service.bucketlists;
-    this.user = this.bucketlists_service.user_info;
+    this.loginStatus();
   }
-  ngOnDestroy() {
-   // prevent memory leak when component destroyed
-    this._subscription.unsubscribe();
+  ngOnDestroy() {}
+
+  getUser() {
+    return JSON.parse(localStorage.getItem('currentUser')).user_email;
   }
-  user_info (user) {
-    return user.email;
+  loginStatus() {
+    return this.authservice.tokenStatus();
   }
+
   logout() {
-    this.registrationService.logout();
+    this.api_service.logout();
     this.router.navigate(['/home']);
     this.alertService.success('Logout successful');
   }
@@ -62,14 +58,28 @@ export class TitleBarComponent implements OnInit {
     }
     return count;
   }
-  addBucketlist(name) {
-    let new_bucketlist = {
-      'name': name,
-      'id' : this.bucketlists.length + 1,
-      'items': []
-    };
-    this.bucketlists.push(new_bucketlist);
-    event.stopPropagation();
+  async addBucketlist(name) {
+    console.log('Name: ', name);
+    let data: any;
+    await this.api_service.newBucketlistDB(name).then(res => {
+      data = res.json();
+      console.log('DATA  : ', res.json());
+      if (data.message) {
+        this.bucketlists = [];
+        console.log(data.message);
+        // return data.message;
+        this.error = data.message;
+        return false;
+      } else {
+        // this.bucketlists = data;
+        console.log('XXXXXXXX', res.json());
+        return res.json();
+        // ans = res.json();
+      }
+    });
+    // console.log('ANS', ans)
+    // return ans;
+    // event.stopPropagation();
   }
   newBucketlist() {
     const self = this;
@@ -91,12 +101,22 @@ export class TitleBarComponent implements OnInit {
       },
       allowOutsideClick: false
     }).then(function (text) {
-      self.addBucketlist(text);
-      swal({
-        type: 'success',
-        html: `New bucketlist <b>${text}</b> successfully added.`,
-        timer: 1000
-      });
+      let answer = self.addBucketlist(text).then(res => res);
+      console.log('ANSWER: ', answer)
+      if (answer) {
+        swal({
+          type: 'success',
+          html: `New bucketlist <b>${text}</b> successfully added.`,
+          timer: 1000
+        }).catch(error => console.log('Error: ', error));
+      } else {
+        swal({
+          type: 'error',
+          html: `Not created!`,
+          timer: 1000
+        }).catch(error => console.log('Error: ', error));
+      }
+
     });
   }
 }
