@@ -96,4 +96,23 @@ export class RegistrationService {
       // await this.errorHandler(error);
     }
   }
+  async deleteBucketlist(id): Promise<Response> {
+    console.log('To delete: ', id);
+    let token = localStorage.getItem('token');
+    let user_token = 'Bearer ' + token;
+    let headers = new Headers({'Content-Type': 'application/json', 'Authorization': user_token});
+    let options = new RequestOptions({headers: headers});
+    let body = { 'name': name };
+    let deleteUrl = 'http://127.0.0.1:5000/api/v1/bucketlists/' + parseInt(id, 10);
+    try {
+      let res = await this.http
+        .delete(deleteUrl, options)
+        .toPromise();
+      console.log('Delete: ', res.json());
+      return res;
+    } catch (error) {
+      return error;
+      // await this.errorHandler(error);
+    }
+  }
 }

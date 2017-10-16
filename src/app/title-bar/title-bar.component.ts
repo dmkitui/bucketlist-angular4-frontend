@@ -32,7 +32,7 @@ export class TitleBarComponent implements OnInit {
     return JSON.parse(localStorage.getItem('currentUser')).user_email;
   }
   loginStatus() {
-    return (localStorage.getItem('token') && localStorage.getItem('currentUser'));
+    return this.authservice.tokenStatus();
   }
 
   logout() {

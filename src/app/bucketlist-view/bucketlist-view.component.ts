@@ -1,11 +1,10 @@
-import {Component, Directive, OnInit, ChangeDetectionStrategy, Input, ChangeDetectorRef} from '@angular/core';
+import {Component, Directive, OnInit, Input} from '@angular/core';
 import swal, {SweetAlertOptions} from 'sweetalert2';
 import { RegistrationService } from '../api.service';
 import { Observable } from 'rxjs/Observable';
 
 @Component({
   selector: 'app-bucketlist-view',
-  changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './bucketlist-view.component.html',
   styleUrls: ['./bucketlist-view.component.css']
 })
@@ -27,7 +26,7 @@ export class BucketlistViewComponent implements OnInit {
     }
   }
 
-  constructor(private api_service: RegistrationService, private cd: ChangeDetectorRef) {
+  constructor(private api_service: RegistrationService) {
     this.getBucketlists();
     // this.bucketlists = bucketlistData;
     console.log('Done getting bucketlists?', this.bucketlists);
@@ -85,10 +84,27 @@ export class BucketlistViewComponent implements OnInit {
     event.stopPropagation();
   }
 
-  deleteBucketlist(item) {
-    let ind = this.bucketlists.indexOf(item);
-    this.bucketlists.splice(ind, 1);
-    event.stopPropagation();
+  async deleteBucketlist(id) {
+    await this.api_service.deleteBucketlist(id).then(res => {
+      if (res.status === 200) {
+        swal({
+          title: 'Deleted!',
+          text: 'Item deleted Successfully.',
+          type: 'success',
+          timer: 1500,
+          confirmButtonColor: '#5aaa3d'
+        }).catch(error => console.log('Error: ', error));
+        this.getBucketlists();
+      } else {
+        swal({
+          title: 'Error Deleting Bucketlist!',
+          text: 'A problem occured while deleting bucketlist.',
+          type: 'error',
+          timer: 5500,
+          confirmButtonColor: '#5aaa3d'
+        }).catch(error => console.log('Error: ', error));
+      }
+    });
   }
 
   addItemToBucketlist(item, text) {
@@ -98,7 +114,7 @@ export class BucketlistViewComponent implements OnInit {
     event.stopPropagation();
   }
 
-  deleteItem(item) {
+  deleteItem(id) {
     const self = this;
     swal({
       title: 'Confirm Delete of Bucketlist Item.',
@@ -112,14 +128,7 @@ export class BucketlistViewComponent implements OnInit {
       customClass: 'confirmationBox'
     }).then(function (isConfirm) {
       if (isConfirm) {
-        self.deleteBucketlist(item);
-        swal({
-          title: 'Deleted!',
-          text: 'Item deleted Successfully.',
-          type: 'success',
-          timer: 1500,
-          confirmButtonColor: '#5aaa3d'
-        }).catch(error => console.log('Error: ', error));
+        self.deleteBucketlist(id);
       }
     }, function (dismiss) {
       // dismiss can be 'cancel', 'overlay',

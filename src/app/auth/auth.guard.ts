@@ -7,7 +7,6 @@ import { Subject } from 'rxjs/Subject';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  logged_in_status: Subject<boolean> = new Subject<boolean>();
   constructor(private router: Router) { }
   canActivate(
     next: ActivatedRouteSnapshot,
@@ -15,14 +14,18 @@ export class AuthGuard implements CanActivate {
     if (localStorage.getItem('currentUser')) {
       console.log('confirming status!');
       if (tokenNotExpired()) {
-        this.logged_in_status.next(true);
-        console.log('Not expired!', this.logged_in_status);
         return true;
       }
       // not logged in so redirect to login page
       console.log('Not Logged IN!!!!!!!!!!!');
-      this.logged_in_status.next(false);
       this.router.navigate(['/login']);
+      return false;
+    }
+  }
+  tokenStatus() {
+    if (tokenNotExpired()) {
+      return true;
+    } else {
       return false;
     }
   }

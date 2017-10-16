@@ -13,7 +13,7 @@
             <div class="action-buttons">
               <button class="btn btn-lg edit" (click)="editItem($event, item)">Edit</button>
               <button class="btn btn-lg add-item" (click)="addItem(item)">Add Item</button>
-              <a class="btn btn-lg delete" (click)="deleteItem(item)">Delete</a>
+              <a class="btn btn-lg delete" (click)="deleteItem(item.id)">Delete</a>
             </div>
           </span>
           <div class="listItem_div" *ngIf="showItems && (i == selectedItem) && (item.items.length > 0)" >
