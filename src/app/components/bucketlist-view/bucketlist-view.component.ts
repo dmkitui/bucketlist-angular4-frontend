@@ -19,7 +19,7 @@ export class BucketlistViewComponent implements OnInit {
   scrolled_top = true;
 
   item_status (state) {
-    if (state === true) {
+    if (state) {
       return 'DONE';
     } else {
       return 'Not Yet';
@@ -229,40 +229,64 @@ export class BucketlistViewComponent implements OnInit {
     });
     event.stopPropagation();
   }
-  complete_item(event, x, done, item) {
+  complete_item(event, item_id, done, bucketlist) {
     done = !done;
-    let btn = document.getElementById(x);
-    btn.textContent = this.item_status(done);
-    // item.items[x].done = done;
-    if (done) {}
+    if (done) {
+      const self = this;
+      swal({
+        title: 'Are You Sure?',
+        text: 'are you sure you have achieved this?!',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#d33',
+        cancelButtonColor: '#5aaa3d',
+        confirmButtonText: 'Yes, Damn it!',
+        width: '700px',
+        customClass: 'confirmationBox'
+      }).then(function (isConfirm) {
+        if (isConfirm) {
+          let btn = document.getElementById(item_id);
+          btn.textContent = self.item_status(done);
+          self.changeItemStatus(item_id, bucketlist.id);
+        }
+      }, function (dismiss) {
+        // dismiss can be 'cancel', 'overlay',
+        // 'close', and 'timer'
+        if (dismiss === 'cancel') {
+          swal({
+            title: 'Cheating Bastard...',
+            text: 'You only cheating yourself...',
+            type: 'error',
+            timer: 1500,
+            confirmButtonColor: '#5aaa3d'
+          }).catch(error => console.log('Error: ', error));
+        }
+      });
+    }
     event.stopPropagation();
   }
-  newBucketlist() {
-    const self = this;
-    swal({
-      title: 'New Bucketlist',
-      input: 'text',
-      inputPlaceholder: 'New bucketlist name',
-      showCancelButton: true,
-      preConfirm: function (text) {
-        return new Promise(function (resolve, reject) {
-          setTimeout(function() {
-            if (!(text)) {
-              reject('Bucketlist name cannot be blank');
-            } else {
-              resolve();
-            }
-          }, 50);
-        });
-      },
-      allowOutsideClick: false
-    }).then(function (text) {
-      self.addBucketlist(text);
-      swal({
-        type: 'success',
-        html: `New bucketlist <b>${text}</b> successfully added.`,
-        timer: 1000
-      });
+  async changeItemStatus(item_id, bucketlist_id) {
+    let data: any;
+    await this.api_service.completeItem(item_id, bucketlist_id).then(res => {
+      let data = res.json();
+      if (res.status === 201) {
+        swal({
+          title: 'Complete Item',
+          text: 'Item Completed Successfully.',
+          type: 'success',
+          timer: 3500,
+          confirmButtonColor: '#5aaa3d'
+        }).catch(error => console.log('Error: ', error));
+        this.fetchBucketlists();
+      } else {
+        swal({
+          title: 'Complete Item',
+          text: res.status + '  ' + data.message,
+          type: 'error',
+          timer: 5500,
+          confirmButtonColor: '#5aaa3d'
+        }).catch(error => console.log('Error: ', error));
+      }
     });
   }
   scroll_detector () {
