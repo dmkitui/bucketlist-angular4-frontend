@@ -20,12 +20,15 @@ import { RegistrationComponent } from './registration/registration.component';
 import { RegistrationService } from './api.service';
 import { HttpModule } from '@angular/http';
 import { AuthGuard as AuthGuard } from './auth/auth.guard';
+import { LoginRedirectComponent } from './components/login-redirect/login-redirect.component';
+
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'bucketlistview', component: BucketlistViewComponent, canActivate: [AuthGuard] },
   { path: 'home', component: HomepageComponent },
-  { path: 'register', component: RegistrationComponent},
+  { path: 'register', component: RegistrationComponent },
+  { path: 'login-redirect', component: LoginRedirectComponent },
   { path: '**', redirectTo: 'home'}
 ];
 
@@ -41,7 +44,8 @@ const routes: Routes = [
     BucketlistViewComponent,
     ListViewComponent,
     AlertComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    LoginRedirectComponent,
   ],
   imports: [
     BrowserModule,

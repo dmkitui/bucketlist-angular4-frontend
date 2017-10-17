@@ -61,25 +61,26 @@ export class TitleBarComponent implements OnInit {
   async addBucketlist(name) {
     console.log('Name: ', name);
     let data: any;
-    await this.api_service.newBucketlistDB(name).then(res => {
+    let xx = await this.api_service.newBucketlistDB(name).then(res => {
       data = res.json();
       console.log('DATA  : ', res.json());
       if (data.message) {
         this.bucketlists = [];
         console.log(data.message);
-        // return data.message;
-        this.error = data.message;
+        swal({
+          type: 'error',
+          html: `` + data.message + ``,
+          timer: 10000
+        }).catch(error => error);
         return false;
       } else {
-        // this.bucketlists = data;
-        console.log('XXXXXXXX', res.json());
-        return res.json();
-        // ans = res.json();
+        swal({
+          type: 'success',
+          html: `New bucketlist <b>` + data.name + `</b> successfully added.`,
+          timer: 3000
+        }).catch(error => console.log('Error: ', error));
       }
     });
-    // console.log('ANS', ans)
-    // return ans;
-    // event.stopPropagation();
   }
   newBucketlist() {
     const self = this;
@@ -90,7 +91,7 @@ export class TitleBarComponent implements OnInit {
       showCancelButton: true,
       preConfirm: function (text) {
         return new Promise(function (resolve, reject) {
-          setTimeout(function() {
+          setTimeout(function () {
             if (!(text)) {
               reject('Bucketlist name cannot be blank');
             } else {
@@ -101,22 +102,7 @@ export class TitleBarComponent implements OnInit {
       },
       allowOutsideClick: false
     }).then(function (text) {
-      let answer = self.addBucketlist(text).then(res => res);
-      console.log('ANSWER: ', answer)
-      if (answer) {
-        swal({
-          type: 'success',
-          html: `New bucketlist <b>${text}</b> successfully added.`,
-          timer: 1000
-        }).catch(error => console.log('Error: ', error));
-      } else {
-        swal({
-          type: 'error',
-          html: `Not created!`,
-          timer: 1000
-        }).catch(error => console.log('Error: ', error));
-      }
-
-    });
+      self.addBucketlist(text);
+      });
   }
 }
