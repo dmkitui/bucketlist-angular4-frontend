@@ -1,6 +1,6 @@
 import {Component, Directive, OnInit, Input} from '@angular/core';
 import swal, {SweetAlertOptions} from 'sweetalert2';
-import { RegistrationService } from '../api.service';
+import { RegistrationService } from '../../services/api.service';
 import { Observable } from 'rxjs/Observable';
 
 @Component({

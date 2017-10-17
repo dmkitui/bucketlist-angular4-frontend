@@ -1,9 +1,9 @@
 import { Component, OnInit, OnDestroy} from '@angular/core'; // ChangeDetectionStrategy
 import swal, {SweetAlertOptions} from 'sweetalert2';
 import { Router } from '@angular/router';
-import { AlertService } from '../alert-service.service';
-import { RegistrationService } from '../api.service';
-import { AuthGuard } from '../auth/auth.guard';
+import { AlertService } from '../../services/alert-service.service';
+import { RegistrationService } from '../../services/api.service';
+import { AuthGuard } from '../../auth/auth.guard';
 
 
 @Component({
