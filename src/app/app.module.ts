@@ -3,7 +3,6 @@ import { NgModule } from '@angular/core';
 import { SweetAlertService } from 'angular-sweetalert-service';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
-import { MainscreenComponent } from './mainscreen/mainscreen.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { TitleBarComponent } from './components/title-bar/title-bar.component';
 import { HomepageComponent } from './components/homepage/homepage.component';
@@ -34,7 +33,6 @@ const routes: Routes = [
   declarations: [
     AppComponent,
     LoginComponent,
-    MainscreenComponent,
     FooterComponent,
     TitleBarComponent,
     HomepageComponent,
