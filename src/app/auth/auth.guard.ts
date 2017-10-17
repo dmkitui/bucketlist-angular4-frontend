@@ -3,7 +3,6 @@ import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angul
 import { Observable } from 'rxjs/Observable';
 import { Router } from '@angular/router';
 import { tokenNotExpired } from 'angular2-jwt';
-import { Subject } from 'rxjs/Subject';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -16,11 +15,10 @@ export class AuthGuard implements CanActivate {
       if (tokenNotExpired()) {
         return true;
       }
-      // not logged in so redirect to login page
-      console.log('Not Logged IN!!!!!!!!!!!');
-      this.router.navigate(['/login']);
-      return false;
     }
+    console.log('Not Logged IN!!!!!!!!!!!');
+    this.router.navigate(['/login-redirect']);
+    return false;
   }
   tokenStatus() {
     if (tokenNotExpired()) {

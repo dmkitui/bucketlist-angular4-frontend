@@ -1,0 +1,10 @@
+.redirect-banner {
+  margin-left: 15%;
+  margin-right: 15%;
+  height: 100px;
+  width: 70%;
+}
+p > a {
+  color: blue;
+  text-decoration: dashed;
+}

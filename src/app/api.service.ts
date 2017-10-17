@@ -86,11 +86,11 @@ export class RegistrationService {
     let options = new RequestOptions({headers: headers});
     let body = { 'name': name };
     try {
-      let bucketlist = await this.http
+      let res = await this.http
         .post(this.bucketlistUrl, body, options)
         .toPromise();
-      console.log('RESPONSE NEW: ', bucketlist.json());
-      return bucketlist;
+      console.log('RESPONSE NEW: ', res.json());
+      return res;
     } catch (error) {
       return error;
       // await this.errorHandler(error);
