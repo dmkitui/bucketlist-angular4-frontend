@@ -61,7 +61,7 @@ export class TitleBarComponent implements OnInit {
   async addBucketlist(name) {
     console.log('Name: ', name);
     let data: any;
-    let xx = await this.api_service.newBucketlistDB(name).then(res => {
+    await this.api_service.newBucketlistDB(name).then(res => {
       data = res.json();
       console.log('DATA  : ', res.json());
       if (data.message) {
