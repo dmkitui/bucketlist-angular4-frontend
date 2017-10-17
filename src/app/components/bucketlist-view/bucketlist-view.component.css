@@ -206,6 +206,7 @@ tr:nth-child(even) {
 }
 .item_status {
   width: 75px;
+  margin: 5px 0 5px 0;
 }
 .item_status_done {
   background-color: lightgreen;

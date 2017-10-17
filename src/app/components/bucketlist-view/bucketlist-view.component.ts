@@ -27,17 +27,17 @@ export class BucketlistViewComponent implements OnInit {
   }
 
   constructor(private api_service: RegistrationService) {
-    this.getBucketlists();
-    // this.bucketlists = bucketlistData;
-    console.log('Done getting bucketlists?', this.bucketlists);
+    this.fetchBucketlists();
+    // this.fetchBucketlists = bucketlistData;
+    console.log('Done getting fetchBucketlists?', this.bucketlists);
   }
 
   ngOnInit() {}
 
-  async getBucketlists() {
+  async fetchBucketlists() {
     console.log('Gettign Bucketlists...');
     let data: any;
-    await this.api_service.bucketlists().then(res => {
+    await this.api_service.getBucketlists().then(res => {
       data = res;
       console.log('DATA  : ', data);
       if (data.message) {
@@ -94,7 +94,7 @@ export class BucketlistViewComponent implements OnInit {
           timer: 1500,
           confirmButtonColor: '#5aaa3d'
         }).catch(error => console.log('Error: ', error));
-        this.getBucketlists();
+        this.fetchBucketlists();
       } else {
         swal({
           title: 'Error Deleting Bucketlist!',
@@ -107,11 +107,29 @@ export class BucketlistViewComponent implements OnInit {
     });
   }
 
-  addItemToBucketlist(item, text) {
-    let ind = this.bucketlists.indexOf(item);
-    let bucketlist = this.bucketlists[ind];
-    bucketlist.items.push({'name': text, 'done': false});
-    event.stopPropagation();
+  async addItemToBucketlist(id, item_name) {
+    let data:any;
+    await this.api_service.addItem(id, item_name).then(res => {
+      let data = res.json();
+      if (res.status === 201) {
+        swal({
+          title: 'Add Bucketlist Item',
+          text: 'Item added Successfully.',
+          type: 'success',
+          timer: 3500,
+          confirmButtonColor: '#5aaa3d'
+        }).catch(error => console.log('Error: ', error));
+        this.fetchBucketlists();
+      } else {
+        swal({
+          title: 'Add Bucketlist Item',
+          text: res.status + '  ' + data.message,
+          type: 'error',
+          timer: 5500,
+          confirmButtonColor: '#5aaa3d'
+        }).catch(error => console.log('Error: ', error));
+      }
+    });
   }
 
   deleteItem(id) {
@@ -155,17 +173,21 @@ export class BucketlistViewComponent implements OnInit {
       showCancelButton: true,
       confirmButtonText: 'Add Item',
       allowOutsideClick: false,
+      preConfirm: function (text) {
+        return new Promise(function (resolve, reject) {
+          setTimeout(function() {
+            if (!(text)) {
+              reject('New item name cannot be blank');
+            } else {
+              resolve();
+            }
+          }, 50);
+        });
+      },
       }).then(function(text){
         if (text) {
-          self.addItemToBucketlist(item, text);
+          self.addItemToBucketlist(item.id, text);
         }
-    }).then(function (email) {
-      swal({
-        type: 'success',
-        title: 'Item Added successfully',
-        html: `New item added to <b> ${item.name.toUpperCase()}</b>`,
-        timer: 1500
-      });
     });
     event.stopPropagation();
   }
@@ -211,7 +233,8 @@ export class BucketlistViewComponent implements OnInit {
     done = !done;
     let btn = document.getElementById(x);
     btn.textContent = this.item_status(done);
-    item.items[x].done = done;
+    // item.items[x].done = done;
+    if (done) {}
     event.stopPropagation();
   }
   newBucketlist() {

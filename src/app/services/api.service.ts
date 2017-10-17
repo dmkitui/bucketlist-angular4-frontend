@@ -58,9 +58,9 @@ export class RegistrationService {
     localStorage.removeItem('token');
     localStorage.removeItem('currentUser');
   }
-  async  bucketlists(): Promise<Response> {
+  async  getBucketlists(): Promise<Response> {
     let token = localStorage.getItem('token');
-    console.log('Fetching bucketlists?', token);
+    console.log('Fetching fetchBucketlists?', token);
     let user_token = 'Bearer ' + token;
     let headers = new Headers({'Content-Type': 'application/json', 'Authorization': user_token});
     let options = new RequestOptions({headers: headers});
@@ -113,6 +113,21 @@ export class RegistrationService {
     } catch (error) {
       return error;
       // await this.errorHandler(error);
+    }
+  }
+  async addItem(id, item_name): Promise<Response> {
+    let user_token = 'Bearer ' + localStorage.getItem('token');
+    let headers = new Headers({'Content-Type': 'application/json', 'Authorization': user_token});
+    let options = new RequestOptions({headers: headers});
+    let body = { 'item_name': item_name };
+    let addItemUrl = 'http://127.0.0.1:5000/api/v1/bucketlists/' + id + '/items/';
+    try {
+      let res = await this.http
+        .post(addItemUrl, body, options)
+        .toPromise();
+      return res;
+    } catch (error) {
+      return error;
     }
   }
 }
