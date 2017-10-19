@@ -11,7 +11,7 @@
           <span class="index">{{ i + 1 }} .</span><span [ngClass]="[(showItems && i == selectedItem) ? 'item-title-alternate' : 'item-title']">{{ item.name|titlecase }}</span>
           <span>
             <div class="action-buttons">
-              <button class="btn btn-lg edit" (click)="editItem($event, item)">Edit</button>
+              <button class="btn btn-lg edit" (click)="editBucketlist($event, item)">Edit</button>
               <button class="btn btn-lg add-item" (click)="addItem(item)">Add Item</button>
               <a class="btn btn-lg delete" (click)="deleteItem(item.id)">Delete</a>
             </div>

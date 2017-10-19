@@ -60,18 +60,30 @@ export class BucketlistViewComponent implements OnInit {
       this.showItems = true;
     }
   }
-  editBucketlistName(item, title) {
-    let ind = this.bucketlists.indexOf(item);
-    let bucketlist = this.bucketlists[ind];
-    if (!(title === bucketlist.name)) {
-      bucketlist.name = title;
-    } else {
-      swal({
-        title: 'Cannot update bucketlist name',
-        text: 'The name has not changed!!',
-        type: 'error',
-      });
-    }
+  async editBucketlistName(bucketlist_id, New_title) {
+    let data:any;
+    await this.api_service.editBucketlistName(bucketlist_id, New_title).then(res => {
+      let data = res.json();
+      if (res.status === 200) {
+        console.log(data);
+        swal({
+          title: 'Add Bucketlist Item',
+          text: 'Item Updated Successfully.',
+          type: 'success',
+          timer: 3500,
+          confirmButtonColor: '#5aaa3d'
+        }).catch(error => console.log('Error: ', error));
+        this.fetchBucketlists();
+      } else {
+        swal({
+          title: 'Add Bucketlist Item',
+          text: res.status + '  ' + data.message,
+          type: 'error',
+          timer: 5500,
+          confirmButtonColor: '#5aaa3d'
+        }).catch(error => console.log('Error: ', error));
+      }
+    });
     event.stopPropagation();
   }
   addBucketlist(name) {
@@ -191,7 +203,7 @@ export class BucketlistViewComponent implements OnInit {
     });
     event.stopPropagation();
   }
-  editItem(event, item) {
+  editBucketlist(event, item) {
     const self = this;
     swal({
       width: '700px',
@@ -215,18 +227,19 @@ export class BucketlistViewComponent implements OnInit {
           }, 50);
         });
       },
-      }).then(function(text){
-        if (text && !(text === item.name)) {
-          self.editBucketlistName(item, text);
-        }
-    }).then(function (text) {
-      swal({
-        type: 'success',
-        title: 'Bucketlist Item name updated',
-        timer: 2000,
-        html: `New bucketlist title <b>${item.name.toUpperCase()}</b>`
-      });
+      }).then(function(text) {
+      if (text && !(text === item.name)) {
+        self.editBucketlistName(item.id, text);
+      }
     });
+    // }).then(function (text) {
+    //   swal({
+    //     type: 'success',
+    //     title: 'Bucketlist Item name updated',
+    //     timer: 2000,
+    //     html: `New bucketlist title <b>${item.name.toUpperCase()}</b>`
+    //   });
+    // });
     event.stopPropagation();
   }
   complete_item(event, item_id, done, bucketlist) {

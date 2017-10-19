@@ -144,6 +144,22 @@ export class RegistrationService {
     } catch (error) {
       return error;
     }
-
+  }
+  async editBucketlistName(bucketlist_id, new_title) {
+    console.log('Edit Item!');
+    let user_token = 'Bearer ' + localStorage.getItem('token');
+    let headers = new Headers({'Content-Type': 'application/json', 'Authorization': user_token});
+    let options = new RequestOptions({headers: headers});
+    let body = { 'name': new_title };
+    let editItemUrl = 'http://127.0.0.1:5000/api/v1/bucketlists/' + bucketlist_id;
+    try {
+      let res = await this.http
+        .put(editItemUrl, body, options)
+        .toPromise();
+      console.log('Edit Item Res: ', res);
+      return res;
+    } catch (error) {
+      return error;
+    }
   }
 }
