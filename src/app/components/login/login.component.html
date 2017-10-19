@@ -12,6 +12,7 @@
                #email="ngModel"
                email="true"
                required
+               autofocus
                placeholder="Email"
                (focus)="remove_error()"/>
         <div class="alert alert-danger" *ngIf="email.touched && email.errors?.required">

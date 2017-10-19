@@ -268,6 +268,7 @@ export class BucketlistViewComponent implements OnInit {
   async changeItemStatus(item_id, bucketlist_id) {
     let data: any;
     await this.api_service.completeItem(item_id, bucketlist_id).then(res => {
+      console.log('DATA API: ', res, item_id, bucketlist_id)
       let data = res.json();
       if (res.status === 201) {
         swal({
