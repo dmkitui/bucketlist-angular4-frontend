@@ -40,7 +40,8 @@ div .active{
   font-size: 0.9em;
 }
 .item-time > p {
-  color: red;
+  font-weight: 900;
+  color: blue;
   display: inline;
 }
 
@@ -79,16 +80,13 @@ hr {
   color: blue;
 }
 .countNo {
-  color: red;
+  color: darkgreen;
 }
 
-.noCount {
+.count-indicator {
   display: block;
   color: gray;
-}
-
-.count, .noCount {
-  margin-left: 25px;
+  margin-left: 50px;
 }
 
 .sidebar {
@@ -182,6 +180,10 @@ td {
   width:40%;
   text-align: left;
   padding-left: 20px;
+}
+.list_name:hover {
+  text-decoration:blue;
+  color: blue;
 }
 
 input {

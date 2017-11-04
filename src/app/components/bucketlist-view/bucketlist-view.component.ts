@@ -2,6 +2,7 @@ import {Component, Directive, OnInit, Input} from '@angular/core';
 import swal, {SweetAlertOptions} from 'sweetalert2';
 import { RegistrationService } from '../../services/api.service';
 import { Observable } from 'rxjs/Observable';
+import {any} from "codelyzer/util/function";
 
 @Component({
   selector: 'app-bucketlist-view',
@@ -17,6 +18,12 @@ export class BucketlistViewComponent implements OnInit {
   paginationInfo: any = {};
   scrollable = false;
   scrolled_top = true;
+  editRowId: any;
+
+  editRow(id) {
+    this.editRowId = id;
+    event.stopPropagation();
+  }
 
   item_status (state) {
     if (state) {
@@ -52,6 +59,7 @@ export class BucketlistViewComponent implements OnInit {
   }
 
   setClickedItem (index) {
+    this.editRow(any);
     this.selectedItem = index;
     if (this.bucketlists[index].items.length > 0) {
       this.showItems = !this.showItems;
@@ -281,7 +289,6 @@ export class BucketlistViewComponent implements OnInit {
   async changeItemStatus(item_id, bucketlist_id) {
     let data: any;
     await this.api_service.completeItem(item_id, bucketlist_id).then(res => {
-      console.log('DATA API: ', res, item_id, bucketlist_id)
       let data = res.json();
       if (res.status === 201) {
         swal({
@@ -326,5 +333,78 @@ export class BucketlistViewComponent implements OnInit {
     let time = new Date(date).toLocaleString('en-US', options);
 
     return time;
+  }
+
+  editing_item_name(event)  {
+    console.log('Single click');
+    event.stopPropagation();
+  }
+  saveChanges(event, item_id, bucketlist_id) {
+    console.log('SAVED?: ', item_id, 'NEW VALUE: ', event.target.value);
+    console.log('ITEM: ', bucketlist_id);
+    this.editRowId = any;
+
+    const self = this;
+    swal({
+      title: 'Save Changes?',
+      text: 'Do you want to save the new list name?!',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#d33',
+      cancelButtonColor: '#5aaa3d',
+      confirmButtonText: 'Yes, Damn it!',
+      width: '700px',
+      customClass: 'confirmationBox'
+    }).then(function (isConfirm) {
+      if (isConfirm) {
+        self.commitItemNameEdit(item_id, bucketlist_id, event.target.value);
+      }
+    }, function (dismiss) {
+      // dismiss can be 'cancel', 'overlay',
+      // 'close', and 'timer'
+      if (dismiss === 'cancel') {
+        swal({
+          title: 'Changes Dismissed',
+          text: 'Changes wont be saved!',
+          type: 'error',
+          timer: 1500,
+          confirmButtonColor: '#5aaa3d'
+        }).catch(error => console.log('Error: ', error));
+        }
+      });
+    event.stopPropagation();
+  }
+  async commitItemNameEdit(item_id, bucketlist_id, new_name) {
+    console.log('DETAILS: ', item_id, bucketlist_id, new_name);
+    let data: any;
+    await this.api_service.editItemName(item_id, bucketlist_id, new_name).then(res => {
+      let data = res.json();
+      if (res.status === 201) {
+        swal({
+          title: 'Save Changes to Item Name',
+          text: 'Item Name Updated Successfully.',
+          type: 'success',
+          timer: 3500,
+          confirmButtonColor: '#5aaa3d'
+        }).catch(error => console.log('Error: ', error));
+        // this.fetchBucketlists();
+      } else if (res.status === 409) {
+        swal({
+          title: 'Save Changes to Item Name',
+          text: 'Changes Not Saved: New name is same as previous one',
+          type: 'error',
+          timer: 5500,
+          confirmButtonColor: '#5aaa3d'
+        }).catch(error => console.log('Error: ', error));
+      } else {
+        swal({
+          title: 'Save Changes to Item Name',
+          text: res.status + '  ' + data.message,
+          type: 'error',
+          timer: 5500,
+          confirmButtonColor: '#5aaa3d'
+        }).catch(error => console.log('Error: ', error));
+      }
+    });
   }
 }

@@ -18,9 +18,9 @@
           </span>
           <div class="listItem_div" *ngIf="showItems && (i == selectedItem) && (item.items.length > 0)" >
             <div class="sub-title text-center">{{ item.name|titlecase }}</div>
-            <p class="text-center item-count">{{ item.items.length }} bucketlist items</p>
             <div class="text-center item-time">
               Created on: <p>{{ timeDisplay(item.date_created) }}</p>
+              <br>
               Last Activity: <p>{{timeDisplay(item.date_modified)}}
             </div>
             <table>
@@ -33,7 +33,14 @@
               </tr>
               <tr class="list_item_rows" *ngFor="let list_item of item.items; index as x">
                 <td>{{ x + 1 }}.</td>
-                <td class="list_name">{{ list_item.item_name }}</td>
+                <td class="list_name" *ngIf="x == editRowId">
+                  <input type="text" [(ngModel)]="list_item.item_name"
+                         (click)="editing_item_name($event)"
+                         (keyup.enter)="saveChanges($event, list_item.id, item.id)">
+                </td>
+                <td class="list_name" *ngIf="x !== editRowId" (click)="editRow(x)">
+                  {{ list_item.item_name }}
+                </td>
                 <td> {{ timeDisplay(list_item.date_created) }} </td>
                 <td> {{ timeDisplay(list_item.date_modified) }} </td>
                 <td>
@@ -42,11 +49,11 @@
               </tr>
             </table>
           </div>
-          <div *ngIf="item.items.length > 0; else noItems" class="count">
-            <button class="btn-link item-count text-left" *ngIf="!(i == selectedItem)">No. of items: <span class="countNo">{{ item.items.length }}</span></button>
+          <div *ngIf="item.items.length > 0; else noItems">
+            <span class="count-indicator text-left" *ngIf="!(i == selectedItem)">No. of items: <span class="countNo">{{ item.items.length }}</span></span>
           </div>
           <ng-template #noItems>
-            <span class="noCount">No items in this bucketlist yet!</span>
+            <span class="count-indicator">No items in this bucketlist yet!</span>
           </ng-template>
         </div>
       </div>
