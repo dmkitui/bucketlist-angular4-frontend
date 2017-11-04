@@ -2,7 +2,7 @@
 @import "../../../../node_modules/font-awesome/css/font-awesome.css";
 @import "../../../../node_modules/sweetalert2/dist/sweetalert2.min.css";
 
-.items {
+.unselected-items {
   text-align: left;
   min-height: 70px;
   border-bottom: solid 1px gray;
@@ -10,6 +10,13 @@
   margin-bottom: 15px;
   padding: 10px;
   position: relative;
+}
+.selected-item {
+  padding: 10px;
+  text-align: left;
+  border: solid 2px gray;
+  border-radius: 10px;
+  margin-bottom: 15px;
 }
 
 .items:hover {

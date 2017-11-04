@@ -6,7 +6,7 @@
         <button class="btn btn view-selector" name="view-select">Detailed</button>
         <button class="btn btn view-selector" name="view-select">List</button>
       </div>
-      <div class="items" *ngFor="let item of bucketlists;  index as i" (click)="setClickedItem(i)" [class.active]="i == selectedItem">
+      <div *ngFor="let item of bucketlists;  index as i" (click)="setClickedItem(i)" [class.active]="i == selectedItem" [ngClass]="[((i == selectedItem) && showItems) ? 'selected-item' : 'unselected-items']">
         <div class="detailed_view">
           <span class="index">{{ i + 1 }} .</span><span [ngClass]="[(showItems && i == selectedItem) ? 'item-title-alternate' : 'item-title']">{{ item.name|titlecase }}</span>
           <span>
