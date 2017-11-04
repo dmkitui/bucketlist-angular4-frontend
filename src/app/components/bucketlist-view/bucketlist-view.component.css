@@ -251,3 +251,8 @@ tr:nth-child(even) {
   /*background:black;*/
   background: -webkit-gradient(radial, 50% 50%, 0, 50% 50%, 650, from(red), to(#fff)) !important;
 }
+.editBox {
+  width: 90%;
+  border: red;
+}
+

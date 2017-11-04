@@ -341,6 +341,15 @@ export class BucketlistViewComponent implements OnInit {
   }
   saveChanges(event, item_id, bucketlist_id) {
     console.log('SAVED?: ', item_id, 'NEW VALUE: ', event.target.value);
+    if (event.target.value === '') {
+      console.log('BLANK!');
+      swal({
+        title: 'ERROR!',
+        text: 'New item name cannot be blank!',
+        type: 'error'
+      }).catch(error => console.log('Error: ', error));
+      return;
+    }
     console.log('ITEM: ', bucketlist_id);
     this.editRowId = any;
 

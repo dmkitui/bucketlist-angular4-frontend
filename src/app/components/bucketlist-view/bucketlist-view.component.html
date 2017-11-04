@@ -34,7 +34,7 @@
               <tr class="list_item_rows" *ngFor="let list_item of item.items; index as x">
                 <td>{{ x + 1 }}.</td>
                 <td class="list_name" *ngIf="x == editRowId">
-                  <input type="text" [(ngModel)]="list_item.item_name"
+                  <input class="editBox text-left" type="text" [(ngModel)]="list_item.item_name"
                          (click)="editing_item_name($event)"
                          (keyup.enter)="saveChanges($event, list_item.id, item.id)">
                 </td>
