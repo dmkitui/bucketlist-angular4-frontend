@@ -337,6 +337,7 @@ export class BucketlistViewComponent implements OnInit {
 
   editing_item_name(event)  {
     console.log('Single click');
+    event.target.select();
     event.stopPropagation();
   }
   saveChanges(event, item_id, bucketlist_id) {
@@ -369,8 +370,6 @@ export class BucketlistViewComponent implements OnInit {
         self.commitItemNameEdit(item_id, bucketlist_id, event.target.value);
       }
     }, function (dismiss) {
-      // dismiss can be 'cancel', 'overlay',
-      // 'close', and 'timer'
       if (dismiss === 'cancel') {
         swal({
           title: 'Changes Dismissed',
