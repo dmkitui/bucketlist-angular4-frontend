@@ -6,9 +6,9 @@
         <button class="btn btn view-selector" name="view-select">Detailed</button>
         <button class="btn btn view-selector" name="view-select">List</button>
       </div>
-      <div *ngFor="let item of bucketlists;  index as i" (click)="setClickedItem(i)" [class.active]="i == selectedItem" [ngClass]="[((i == selectedItem) && showItems) ? 'selected-item' : 'unselected-items']">
+      <div *ngFor="let item of bucketlists;  index as i" (click)="focusedBucketlist($event, i)" [class.active]="i == selectedItem" [ngClass]="[((i == selectedItem) && showItems) ? 'selected-item' : 'unselected-items']">
         <div class="detailed_view">
-          <span class="index">{{ i + 1 }} .</span><span [ngClass]="[(showItems && i == selectedItem) ? 'item-title-alternate' : 'item-title']">{{ item.name|titlecase }}</span>
+          <span class="index">{{ i + 1 }} .</span><span [ngClass]="[(showItems && (i == selectedItem) && (item.items.length > 0)) ? 'item-title-alternate' : 'item-title']">{{ item.name|titlecase }}</span>
           <span>
             <div class="action-buttons">
               <button class="btn btn-lg edit" (click)="editBucketlist($event, item)">Edit</button>
@@ -50,7 +50,7 @@
             </table>
           </div>
           <div *ngIf="item.items.length > 0; else noItems">
-            <span class="count-indicator text-left" *ngIf="!(i == selectedItem)">No. of items: <span class="countNo">{{ item.items.length }}</span></span>
+            <span class="count-indicator text-left" *ngIf="(!(i == selectedItem) || ((i == selectedItem) && !showItems))">No. of items: <span class="countNo">{{ item.items.length }}</span></span>
           </div>
           <ng-template #noItems>
             <span class="count-indicator">No items in this bucketlist yet!</span>

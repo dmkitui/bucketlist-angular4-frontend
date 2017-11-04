@@ -2,7 +2,7 @@ import {Component, Directive, OnInit, Input} from '@angular/core';
 import swal, {SweetAlertOptions} from 'sweetalert2';
 import { RegistrationService } from '../../services/api.service';
 import { Observable } from 'rxjs/Observable';
-import {any} from "codelyzer/util/function";
+import {any} from 'codelyzer/util/function';
 
 @Component({
   selector: 'app-bucketlist-view',
@@ -58,15 +58,15 @@ export class BucketlistViewComponent implements OnInit {
     });
   }
 
-  setClickedItem (index) {
+  focusedBucketlist (event, index) {
     this.editRow(any);
-    this.selectedItem = index;
-    if (this.bucketlists[index].items.length > 0) {
+    if (this.selectedItem === index) {
       this.showItems = !this.showItems;
-    }
-    if (!(this.selectedItem === index)) {
+    } else {
+      this.selectedItem = index;
       this.showItems = true;
     }
+    event.target.scrollIntoView(true);
   }
   async editBucketlistName(bucketlist_id, New_title) {
     let data:any;
@@ -193,6 +193,7 @@ export class BucketlistViewComponent implements OnInit {
       showCancelButton: true,
       confirmButtonText: 'Add Item',
       allowOutsideClick: false,
+      showLoaderOnConfirm: true,
       preConfirm: function (text) {
         return new Promise(function (resolve, reject) {
           setTimeout(function() {
@@ -222,6 +223,7 @@ export class BucketlistViewComponent implements OnInit {
       confirmButtonText: 'Edit title',
       allowOutsideClick: false,
       inputPlaceholder: item.name,
+      showLoaderOnConfirm: true,
       preConfirm: function (text) {
         return new Promise(function (resolve, reject) {
           setTimeout(function() {

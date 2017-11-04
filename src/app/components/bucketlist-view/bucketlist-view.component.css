@@ -14,7 +14,7 @@
 .selected-item {
   padding: 10px;
   text-align: left;
-  border: solid 2px gray;
+  border: solid 1px black;
   border-radius: 10px;
   margin-bottom: 15px;
 }

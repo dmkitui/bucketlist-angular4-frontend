@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy} from '@angular/core'; // ChangeDetectionStrategy
+import { Component, OnInit, OnDestroy} from '@angular/core';
 import swal, {SweetAlertOptions} from 'sweetalert2';
 import { Router } from '@angular/router';
 import { AlertService } from '../../services/alert-service.service';
@@ -8,7 +8,6 @@ import { AuthGuard } from '../../auth/auth.guard';
 
 @Component({
   selector: 'app-title-bar',
-  // changeDetection: ChangeDetectionStrategy.Default,
   templateUrl: './title-bar.component.html',
   styleUrls: ['./title-bar.component.css']
 })

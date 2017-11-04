@@ -46,7 +46,8 @@ const routes: Routes = [
     HttpModule,
     FormsModule,
     RouterModule.forRoot(routes, {useHash: true}),
-    [SweetAlert2Module]
+    // [SweetAlert2Module]
+    [SweetAlert2Module.forRoot()],
   ],
   providers: [
     AuthGuard,
