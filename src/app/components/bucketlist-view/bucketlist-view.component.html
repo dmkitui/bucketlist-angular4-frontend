@@ -1,6 +1,7 @@
 <div class="active col-md-12">
   <span class="scroll-indicator-top" [ngClass]="[scrolled_top? 'hidden' : 'overflow-indicator-top']"></span>
   <div class="mainView" id="main_window" (mouseover)="scroll_detector()" (scroll)="scroll_detector()">
+    <ngx-loading [show]="loading"></ngx-loading>
     <div class="list" *ngIf="bucketlists.length > 0; else emptyList">
       <div class="text-center view-select btn-group">
         <button class="btn btn view-selector" name="view-select">Detailed</button>

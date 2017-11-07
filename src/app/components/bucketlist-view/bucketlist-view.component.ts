@@ -19,6 +19,7 @@ export class BucketlistViewComponent implements OnInit {
   scrollable = false;
   scrolled_top = true;
   editRowId: any;
+  public loading = true;
 
   editRow(id) {
     this.editRowId = id;
@@ -35,14 +36,12 @@ export class BucketlistViewComponent implements OnInit {
 
   constructor(private api_service: RegistrationService) {
     this.fetchBucketlists();
-    // this.fetchBucketlists = bucketlistData;
-    console.log('Done getting fetchBucketlists?', this.bucketlists);
   }
 
   ngOnInit() {}
 
   async fetchBucketlists() {
-    console.log('Gettign Bucketlists...');
+    this.loading = true;
     let data: any;
     await this.api_service.getBucketlists().then(res => {
       data = res;
@@ -53,7 +52,7 @@ export class BucketlistViewComponent implements OnInit {
       }
       this.paginationInfo = data.pop();
       this.bucketlists = data;
-      console.log(this.bucketlists);
+      this.loading = false;
       return res;
     });
   }
@@ -70,12 +69,13 @@ export class BucketlistViewComponent implements OnInit {
   }
   async editBucketlistName(bucketlist_id, New_title) {
     let data:any;
+    swal.showLoading();
     await this.api_service.editBucketlistName(bucketlist_id, New_title).then(res => {
       let data = res.json();
       if (res.status === 200) {
         console.log(data);
         swal({
-          title: 'Add Bucketlist Item',
+          title: 'Edit Bucketlist Item',
           text: 'Item Updated Successfully.',
           type: 'success',
           timer: 3500,
@@ -92,15 +92,6 @@ export class BucketlistViewComponent implements OnInit {
         }).catch(error => console.log('Error: ', error));
       }
     });
-    event.stopPropagation();
-  }
-  addBucketlist(name) {
-    let new_bucketlist = {
-      'name': name,
-      'id' : this.bucketlists.length + 1,
-      'items': []
-    };
-    this.bucketlists.push(new_bucketlist);
     event.stopPropagation();
   }
 
@@ -242,14 +233,6 @@ export class BucketlistViewComponent implements OnInit {
         self.editBucketlistName(item.id, text);
       }
     });
-    // }).then(function (text) {
-    //   swal({
-    //     type: 'success',
-    //     title: 'Bucketlist Item name updated',
-    //     timer: 2000,
-    //     html: `New bucketlist title <b>${item.name.toUpperCase()}</b>`
-    //   });
-    // });
     event.stopPropagation();
   }
   complete_item(event, item_id, done, bucketlist) {
@@ -333,7 +316,6 @@ export class BucketlistViewComponent implements OnInit {
   timeDisplay(date) {
     const options = { hour: 'numeric', minute: 'numeric', year: 'numeric', month: 'long', day: 'numeric' };
     let time = new Date(date).toLocaleString('en-US', options);
-
     return time;
   }
 

@@ -9,9 +9,9 @@ import 'rxjs/add/operator/catch';
 
 @Injectable()
 export class RegistrationService {
-  private regUrl = 'http://127.0.0.1:5000/api/v1/auth/register';
-  private loginUrl = 'http://127.0.0.1:5000/api/v1/auth/login';
-  private bucketlistUrl = 'http://127.0.0.1:5000/api/v1/bucketlists/';
+  private regUrl = 'https://flask-api-bucketlist.herokuapp.com/api/v1/auth/register';
+  private loginUrl = 'https://flask-api-bucketlist.herokuapp.com/api/v1/auth/login';
+  private bucketlistUrl = 'https://flask-api-bucketlist.herokuapp.com/api/v1/bucketlists/';
 
   token: any = {};
   constructor(private http: Http) { }
@@ -102,7 +102,7 @@ export class RegistrationService {
     let headers = new Headers({'Content-Type': 'application/json', 'Authorization': user_token});
     let options = new RequestOptions({headers: headers});
     let body = { 'name': name };
-    let deleteUrl = 'http://127.0.0.1:5000/api/v1/bucketlists/' + parseInt(id, 10);
+    let deleteUrl = this.bucketlistUrl + parseInt(id, 10);
     try {
       let res = await this.http
         .delete(deleteUrl, options)
@@ -119,7 +119,7 @@ export class RegistrationService {
     let headers = new Headers({'Content-Type': 'application/json', 'Authorization': user_token});
     let options = new RequestOptions({headers: headers});
     let body = { 'item_name': item_name };
-    let addItemUrl = 'http://127.0.0.1:5000/api/v1/bucketlists/' + id + '/items/';
+    let addItemUrl = this.bucketlistUrl + id + '/items/';
     try {
       let res = await this.http
         .post(addItemUrl, body, options)
@@ -134,7 +134,7 @@ export class RegistrationService {
     let headers = new Headers({'Content-Type': 'application/json', 'Authorization': user_token});
     let options = new RequestOptions({headers: headers});
     let body = { 'done': true };
-    let editItemUrl = 'http://127.0.0.1:5000/api/v1/bucketlists/' + bucketlist_id + '/items/' + item_id;
+    let editItemUrl = this.bucketlistUrl + bucketlist_id + '/items/' + item_id;
     try {
       let res = await this.http
         .put(editItemUrl, body, options)
@@ -151,7 +151,7 @@ export class RegistrationService {
     let headers = new Headers({'Content-Type': 'application/json', 'Authorization': user_token});
     let options = new RequestOptions({headers: headers});
     let body = { 'name': new_title };
-    let editItemUrl = 'http://127.0.0.1:5000/api/v1/bucketlists/' + bucketlist_id;
+    let editItemUrl = this.bucketlistUrl + bucketlist_id;
     try {
       let res = await this.http
         .put(editItemUrl, body, options)
@@ -167,7 +167,7 @@ export class RegistrationService {
     let headers = new Headers({'Content-Type': 'application/json', 'Authorization': user_token});
     let options = new RequestOptions({headers: headers});
     let body = { 'item_name': item_name };
-    let editItemUrl = 'http://127.0.0.1:5000/api/v1/bucketlists/' + bucketlist_id + '/items/' + item_id;
+    let editItemUrl = this.bucketlistUrl + bucketlist_id + '/items/' + item_id;
     try {
       let res = await this.http
         .put(editItemUrl, body, options)

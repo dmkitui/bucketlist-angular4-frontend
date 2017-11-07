@@ -71,3 +71,8 @@
 #name a {
   color: darkgreen;
 }
+.motto {
+  margin-top: 15px;
+  font-family: Papyrus;
+  font-size: 150%;
+}

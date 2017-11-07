@@ -17,6 +17,7 @@
   border: solid 1px black;
   border-radius: 10px;
   margin-bottom: 15px;
+  position: relative;
 }
 
 .items:hover {
@@ -77,6 +78,7 @@ hr {
   height: 720px;
   width: 85%;
   margin: 0 auto;
+  position: relative;
 }
 .mainView:hover {
   overflow-y: scroll;
