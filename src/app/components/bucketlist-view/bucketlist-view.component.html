@@ -1,59 +1,66 @@
 <div class="active col-md-12">
   <span class="scroll-indicator-top" [ngClass]="[scrolled_top? 'hidden' : 'overflow-indicator-top']"></span>
   <div class="mainView" id="main_window" (mouseover)="scroll_detector()" (scroll)="scroll_detector()">
-    <div class="list" *ngIf="bucketlists.length > 0; else emptyList">
-      <div class="text-center view-select btn-group">
-        <button class="btn btn view-selector" name="view-select">Detailed</button>
-        <button class="btn btn view-selector" name="view-select">List</button>
-      </div>
-      <div class="items" *ngFor="let item of bucketlists;  index as i" (click)="setClickedItem(i)" [class.active]="i == selectedItem">
-        <div class="detailed_view">
-          <span class="index">{{ i + 1 }} .</span><span [ngClass]="[(showItems && i == selectedItem) ? 'item-title-alternate' : 'item-title']">{{ item.name|titlecase }}</span>
-          <span>
-            <div class="action-buttons">
-              <button class="btn btn-lg edit" (click)="editItem($event, item)">Edit</button>
-              <button class="btn btn-lg add-item" (click)="addItem(item)">Add Item</button>
-              <a class="btn btn-lg delete" (click)="deleteItem(item.id)">Delete</a>
+    <h4 class="loading-text" *ngIf="loading">Fetching bucketlists...</h4>
+    <div class="anime-box">
+      <ngx-loading [show]="loading"></ngx-loading>
+      <div class="list" *ngIf="bucketlists.length > 0; else emptyList">
+        <div *ngFor="let item of bucketlists;  index as i" (click)="focusedBucketlist($event, i)" [class.active]="i == selectedItem" [ngClass]="[((i == selectedItem) && showItems) ? 'selected-item' : 'unselected-items']">
+          <div class="detailed_view">
+            <span class="index">{{ i + 1 }} .</span><span [ngClass]="[(showItems && (i == selectedItem) && (item.items.length > 0)) ? 'item-title-alternate' : 'item-title']">{{ item.name|titlecase }}</span>
+            <span>
+              <div class="action-buttons">
+                <button class="btn btn-lg edit" (click)="editBucketlist($event, item)">Edit</button>
+                <button class="btn btn-lg add-item" (click)="addItem(item)">Add Item</button>
+                <a class="btn btn-lg delete" (click)="deleteItem(item.id)">Delete</a>
+              </div>
+            </span>
+            <div class="listItem_div" *ngIf="showItems && (i == selectedItem) && (item.items.length > 0)" >
+              <div class="sub-title text-center">{{ item.name|titlecase }}</div>
+              <div class="text-center item-time">
+                Created on: <p>{{ timeDisplay(item.date_created) | date : 'EEE dd, MMM yyyy @ HH:mm' }}</p>
+                <br>
+                Last Activity: <p>{{timeDisplay(item.date_modified) | date : 'EEE dd, MMM yyyy @ HH:mm' }}
+              </div>
+              <table>
+                <tr>
+                  <th>No.</th>
+                  <th class="list_name">Item Name</th>
+                  <th>Date Added</th>
+                  <th>Date Modified</th>
+                  <th>Status</th>
+                </tr>
+                <tr class="list_item_rows" *ngFor="let list_item of item.items; index as x">
+                  <td>{{ x + 1 }}.</td>
+                  <td class="list_name" *ngIf="x == editRowId">
+                    <input class="editBox text-left" type="text" [(ngModel)]="list_item.item_name"
+                           (click)="editing_item_name($event)"
+                           (keyup.enter)="saveChanges($event, list_item.id, item.id)">
+                  </td>
+                  <td class="list_name" *ngIf="x !== editRowId" (click)="editRow(x)">
+                    {{ list_item.item_name }}
+                  </td>
+                  <td> {{ timeDisplay(list_item.date_created) | date : 'EEE dd, MMM yyyy @ HH:mm' }} </td>
+                  <td> {{ timeDisplay(list_item.date_modified) | date : 'EEE dd, MMM yyyy @ HH:mm' }} </td>
+                  <td>
+                    <button class="btn btn-sm item_status" id="{{x}}" [ngClass]="[list_item.done? 'item_status_done' : 'item_status_not_done']" (click)="complete_item($event, x, list_item.done, item)">{{ list_item.done? 'DONE!' : 'Not Yet' }}</button>
+                  </td>
+                </tr>
+              </table>
             </div>
-          </span>
-          <div class="listItem_div" *ngIf="showItems && (i == selectedItem) && (item.items.length > 0)" >
-            <div class="sub-title text-center">{{ item.name|titlecase }}</div>
-            <p class="text-center item-count">{{ item.items.length }} bucketlist items</p>
-            <div class="text-center item-time">
-              Created on: <p>{{ timeDisplay(item.date_created) }}</p>
-              Last Activity: <p>{{timeDisplay(item.date_modified)}}
+            <div *ngIf="item.items.length > 0; else noItems">
+              <span class="count-indicator text-left" *ngIf="(!(i == selectedItem) || ((i == selectedItem) && !showItems))">No. of items: <span class="countNo">{{ item.items.length }}</span></span>
             </div>
-            <table>
-              <tr>
-                <th>No.</th>
-                <th class="list_name">Item Name</th>
-                <th>Date Added</th>
-                <th>Date Modified</th>
-                <th>Status</th>
-              </tr>
-              <tr class="list_item_rows" *ngFor="let list_item of item.items; index as x">
-                <td>{{ x + 1 }}.</td>
-                <td class="list_name">{{ list_item.item_name }}</td>
-                <td> {{ timeDisplay(list_item.date_created) }} </td>
-                <td> {{ timeDisplay(list_item.date_modified) }} </td>
-                <td>
-                  <button class="btn btn-sm item_status" id="{{x}}" [ngClass]="[list_item.done? 'item_status_done' : 'item_status_not_done']" (click)="complete_item($event, x, list_item.done, item)">{{ list_item.done? 'DONE!' : 'Not Yet' }}</button>
-                </td>
-              </tr>
-            </table>
+            <ng-template #noItems>
+              <span class="count-indicator">No items in this bucketlist yet!</span>
+            </ng-template>
           </div>
-          <div *ngIf="item.items.length > 0; else noItems" class="count">
-            <button class="btn-link item-count text-left" *ngIf="!(i == selectedItem)">No. of items: <span class="countNo">{{ item.items.length }}</span></button>
-          </div>
-          <ng-template #noItems>
-            <span class="noCount">No items in this bucketlist yet!</span>
-          </ng-template>
         </div>
       </div>
-    </div>
     <ng-template #emptyList>
       <span>No Bucketlists available.</span>
     </ng-template>
+    </div>
   </div>
   <span class="scroll-indicator-bottom" [ngClass]="[scrollable? 'overflow-indicator-bottom' : 'hidden']"></span>
 </div>

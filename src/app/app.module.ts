@@ -18,7 +18,7 @@ import { RegistrationService } from './services/api.service';
 import { HttpModule } from '@angular/http';
 import { AuthGuard as AuthGuard } from './auth/auth.guard';
 import { LoginRedirectComponent } from './components/login-redirect/login-redirect.component';
-
+import { LoadingModule, ANIMATION_TYPES  } from 'ngx-loading';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
@@ -46,7 +46,15 @@ const routes: Routes = [
     HttpModule,
     FormsModule,
     RouterModule.forRoot(routes, {useHash: true}),
-    [SweetAlert2Module]
+    LoadingModule.forRoot({
+        animationType: ANIMATION_TYPES.threeBounce,
+        backdropBackgroundColour: '#ffffff',
+        backdropBorderRadius: '4px',
+        primaryColour: '#78EC5E',
+        secondaryColour: '#3A9E23',
+        tertiaryColour: '#166205'
+    }),
+    [SweetAlert2Module.forRoot()],
   ],
   providers: [
     AuthGuard,

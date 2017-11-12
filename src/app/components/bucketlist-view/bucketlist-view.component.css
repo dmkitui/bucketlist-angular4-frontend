@@ -2,13 +2,21 @@
 @import "../../../../node_modules/font-awesome/css/font-awesome.css";
 @import "../../../../node_modules/sweetalert2/dist/sweetalert2.min.css";
 
-.items {
+.unselected-items {
   text-align: left;
   min-height: 70px;
   border-bottom: solid 1px gray;
   border-radius: 10px;
   margin-bottom: 15px;
   padding: 10px;
+  position: relative;
+}
+.selected-item {
+  padding: 10px;
+  text-align: left;
+  border: solid 1px black;
+  border-radius: 10px;
+  margin-bottom: 15px;
   position: relative;
 }
 
@@ -31,7 +39,7 @@ div .active{
 }
 .item-time {
   font-size: 0.75em;
-  color: blue;
+  color: rgba(0,150,0,0.99);
   margin-bottom: 50px;
 }
 .item-count {
@@ -40,7 +48,8 @@ div .active{
   font-size: 0.9em;
 }
 .item-time > p {
-  color: red;
+  font-weight: 900;
+  color: rgba(0,150,0,0.99);
   display: inline;
 }
 
@@ -70,6 +79,14 @@ hr {
   width: 85%;
   margin: 0 auto;
 }
+.loading-text {
+  color: gray;
+}
+
+.anime-box {
+  position: relative;
+  margin-top: 50px;
+}
 .mainView:hover {
   overflow-y: scroll;
 }
@@ -79,16 +96,13 @@ hr {
   color: blue;
 }
 .countNo {
-  color: red;
+  color: darkgreen;
 }
 
-.noCount {
+.count-indicator {
   display: block;
   color: gray;
-}
-
-.count, .noCount {
-  margin-left: 25px;
+  margin-left: 50px;
 }
 
 .sidebar {
@@ -183,6 +197,10 @@ td {
   text-align: left;
   padding-left: 20px;
 }
+.list_name:hover {
+  text-decoration:blue;
+  color: blue;
+}
 
 input {
   vertical-align: middle;
@@ -206,6 +224,7 @@ tr:nth-child(even) {
 }
 .item_status {
   width: 75px;
+  margin: 5px 0 5px 0;
 }
 .item_status_done {
   background-color: lightgreen;
@@ -248,3 +267,8 @@ tr:nth-child(even) {
   /*background:black;*/
   background: -webkit-gradient(radial, 50% 50%, 0, 50% 50%, 650, from(red), to(#fff)) !important;
 }
+.editBox {
+  width: 90%;
+  border: red;
+}
+

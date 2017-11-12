@@ -5,6 +5,7 @@
   min-width: 400px;
   margin: 0 auto;
   padding: 10px;
+  position: relative;
 }
 .i-box {
   padding-left: 1px;
@@ -64,4 +65,7 @@ h4 {
   margin: 0 auto;
   border: solid 1px red;
   font-size: smaller;
+}
+.anime-box {
+  position: relative;
 }

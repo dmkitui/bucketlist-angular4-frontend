@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Headers, Response, RequestOptions } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import 'rxjs/add/operator/toPromise';
+ import 'rxjs/add/operator/toPromise';
 
 import 'rxjs/add/observable/throw';
 import 'rxjs/add/operator/map';
@@ -10,9 +9,9 @@ import 'rxjs/add/operator/catch';
 
 @Injectable()
 export class RegistrationService {
-  private regUrl = 'http://127.0.0.1:5000/api/v1/auth/register';
-  private loginUrl = 'http://127.0.0.1:5000/api/v1/auth/login';
-  private bucketlistUrl = 'http://127.0.0.1:5000/api/v1/bucketlists/';
+  private regUrl = 'https://flask-api-bucketlist.herokuapp.com/api/v1/auth/register';
+  private loginUrl = 'https://flask-api-bucketlist.herokuapp.com/api/v1/auth/login';
+  private bucketlistUrl = 'https://flask-api-bucketlist.herokuapp.com/api/v1/bucketlists/';
 
   token: any = {};
   constructor(private http: Http) { }
@@ -58,9 +57,9 @@ export class RegistrationService {
     localStorage.removeItem('token');
     localStorage.removeItem('currentUser');
   }
-  async  bucketlists(): Promise<Response> {
+  async  getBucketlists(): Promise<Response> {
     let token = localStorage.getItem('token');
-    console.log('Fetching bucketlists?', token);
+    console.log('Fetching fetchBucketlists?', token);
     let user_token = 'Bearer ' + token;
     let headers = new Headers({'Content-Type': 'application/json', 'Authorization': user_token});
     let options = new RequestOptions({headers: headers});
@@ -103,7 +102,7 @@ export class RegistrationService {
     let headers = new Headers({'Content-Type': 'application/json', 'Authorization': user_token});
     let options = new RequestOptions({headers: headers});
     let body = { 'name': name };
-    let deleteUrl = 'http://127.0.0.1:5000/api/v1/bucketlists/' + parseInt(id, 10);
+    let deleteUrl = this.bucketlistUrl + parseInt(id, 10);
     try {
       let res = await this.http
         .delete(deleteUrl, options)
@@ -113,6 +112,70 @@ export class RegistrationService {
     } catch (error) {
       return error;
       // await this.errorHandler(error);
+    }
+  }
+  async addItem(id, item_name): Promise<Response> {
+    let user_token = 'Bearer ' + localStorage.getItem('token');
+    let headers = new Headers({'Content-Type': 'application/json', 'Authorization': user_token});
+    let options = new RequestOptions({headers: headers});
+    let body = { 'item_name': item_name };
+    let addItemUrl = this.bucketlistUrl + id + '/items/';
+    try {
+      let res = await this.http
+        .post(addItemUrl, body, options)
+        .toPromise();
+      return res;
+    } catch (error) {
+      return error;
+    }
+  }
+  async completeItem(item_id, bucketlist_id): Promise<Response> {
+    let user_token = 'Bearer ' + localStorage.getItem('token');
+    let headers = new Headers({'Content-Type': 'application/json', 'Authorization': user_token});
+    let options = new RequestOptions({headers: headers});
+    let body = { 'done': true };
+    let editItemUrl = this.bucketlistUrl + bucketlist_id + '/items/' + item_id;
+    try {
+      let res = await this.http
+        .put(editItemUrl, body, options)
+        .toPromise();
+      console.log('Edit Item Res: ', res);
+      return res;
+    } catch (error) {
+      return error;
+    }
+  }
+  async editBucketlistName(bucketlist_id, new_title) {
+    console.log('Edit Item!');
+    let user_token = 'Bearer ' + localStorage.getItem('token');
+    let headers = new Headers({'Content-Type': 'application/json', 'Authorization': user_token});
+    let options = new RequestOptions({headers: headers});
+    let body = { 'name': new_title };
+    let editItemUrl = this.bucketlistUrl + bucketlist_id;
+    try {
+      let res = await this.http
+        .put(editItemUrl, body, options)
+        .toPromise();
+      console.log('Edit Item Res: ', res);
+      return res;
+    } catch (error) {
+      return error;
+    }
+  }
+  async editItemName(item_id, bucketlist_id, item_name): Promise<Response> {
+    let user_token = 'Bearer ' + localStorage.getItem('token');
+    let headers = new Headers({'Content-Type': 'application/json', 'Authorization': user_token});
+    let options = new RequestOptions({headers: headers});
+    let body = { 'item_name': item_name };
+    let editItemUrl = this.bucketlistUrl + bucketlist_id + '/items/' + item_id;
+    try {
+      let res = await this.http
+        .put(editItemUrl, body, options)
+        .toPromise();
+      console.log('Edit Item Name Res: ', res);
+      return res;
+    } catch (error) {
+      return error;
     }
   }
 }

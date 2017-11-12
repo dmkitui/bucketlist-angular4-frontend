@@ -11,6 +11,7 @@
                #email="ngModel"
                [(ngModel)]="user_email"
                placeholder="Email Address"
+               autofocus
                required>
         <div class="alert alert-danger" *ngIf="email.touched && email.errors?.required">
           Email is required.
