@@ -39,7 +39,7 @@ div .active{
 }
 .item-time {
   font-size: 0.75em;
-  color: blue;
+  color: rgba(0,150,0,0.99);
   margin-bottom: 50px;
 }
 .item-count {
@@ -49,7 +49,7 @@ div .active{
 }
 .item-time > p {
   font-weight: 900;
-  color: blue;
+  color: rgba(0,150,0,0.99);
   display: inline;
 }
 
@@ -78,7 +78,14 @@ hr {
   height: 720px;
   width: 85%;
   margin: 0 auto;
+}
+.loading-text {
+  color: gray;
+}
+
+.anime-box {
   position: relative;
+  margin-top: 50px;
 }
 .mainView:hover {
   overflow-y: scroll;

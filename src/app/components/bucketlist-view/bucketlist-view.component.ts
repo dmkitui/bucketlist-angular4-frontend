@@ -3,6 +3,7 @@ import swal, {SweetAlertOptions} from 'sweetalert2';
 import { RegistrationService } from '../../services/api.service';
 import { Observable } from 'rxjs/Observable';
 import {any} from 'codelyzer/util/function';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-bucketlist-view',
@@ -48,6 +49,7 @@ export class BucketlistViewComponent implements OnInit {
       console.log('DATA  : ', data);
       if (data.message) {
         this.bucketlists = [];
+        this.loading = false;
         return res;
       }
       this.paginationInfo = data.pop();
@@ -314,9 +316,8 @@ export class BucketlistViewComponent implements OnInit {
     }
   }
   timeDisplay(date) {
-    const options = { hour: 'numeric', minute: 'numeric', year: 'numeric', month: 'long', day: 'numeric' };
-    let time = new Date(date).toLocaleString('en-US', options);
-    return time;
+    let time = new Date(date + ' UTC');
+    return time.getTime();
   }
 
   editing_item_name(event)  {
