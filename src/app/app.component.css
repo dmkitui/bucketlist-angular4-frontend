@@ -11,7 +11,8 @@ html, body {
   -webkit-flex: 1 0 auto;
   min-height: 300px;
   width: 90%;
-  padding-top: 30px;
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
 
 hr {
@@ -28,15 +29,11 @@ app-footer {
   margin: 0 auto;
   width: 90%;
   bottom: 0;
-  position: absolute;
   height: 80px;
   background: lightgrey;
+  margin-top: 10px;
 }
 
 app-title-bar {
   color: darkgreen;
-}
-.footer-container {
-  width: 90%;
-  margin: 0 auto;
 }
